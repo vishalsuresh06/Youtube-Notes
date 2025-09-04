@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './dashboard.module.css'
 
 interface UserHeaderProps {
   displayName: string | null
@@ -6,20 +7,13 @@ interface UserHeaderProps {
   onLogout: () => void
 }
 
-const UserHeader = ({ displayName, email, onLogout }: UserHeaderProps) => {
+const UserHeader = ({ displayName, onLogout }: UserHeaderProps) => {
   return (
-    <div>
-      <div>
-        <h1>Welcome to YouTube Notes</h1>
-        <button onClick={onLogout}>
-          Log out
-        </button>
-      </div>
-      <div>
-        <div>
-          <p>Welcome back, {displayName || 'User'}</p>
-        </div>
-      </div>
+    <div className={styles.header}>
+      <p className={styles.welcomeText}>{displayName || 'User'}</p>
+      <button onClick={onLogout} className={styles.logoutButton}>
+        Log out
+      </button>
     </div>
   )
 }

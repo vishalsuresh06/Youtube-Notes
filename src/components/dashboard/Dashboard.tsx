@@ -5,6 +5,7 @@ import GetNotes from './GetNotes'
 import NewNote from '../note/NewNote'
 import ExistingNote from '../note/ExistingNote'
 import type { Note } from '../../types'
+import styles from './dashboard.module.css'
 
 interface DashboardProps {
   onViewChange?: (view: 'dashboard' | 'new-note' | 'edit-note') => void
@@ -33,29 +34,31 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
   }
 
   return (
-    <div>
-      {currentView === 'dashboard' && (
-        <>
-          <UserHeader 
-            displayName={user?.displayName}
-            email={user?.email}
-            onLogout={onLogout}
+    <div className={styles.container}>
+      <div className={styles.content}>
+        {currentView === 'dashboard' && (
+          <>
+            <UserHeader 
+              displayName={user?.displayName}
+              email={user?.email}
+              onLogout={onLogout}
+            />
+            <hr className={styles.divider} />
+          </>
+        )}
+        
+        {currentView === 'dashboard' ? (
+          <GetNotes 
+            email={user?.email} 
+            onAddNote={handleAddNote}
+            onEditNote={handleEditNote}
           />
-          <hr />
-        </>
-      )}
-      
-      {currentView === 'dashboard' ? (
-        <GetNotes 
-          email={user?.email} 
-          onAddNote={handleAddNote}
-          onEditNote={handleEditNote}
-        />
-      ) : currentView === 'new-note' ? (
-        <NewNote onBack={handleBackToDashboard} />
-      ) : (
-        selectedNote && <ExistingNote note={selectedNote} onBack={handleBackToDashboard} />
-      )}
+        ) : currentView === 'new-note' ? (
+          <NewNote onBack={handleBackToDashboard} />
+        ) : (
+          selectedNote && <ExistingNote note={selectedNote} onBack={handleBackToDashboard} />
+        )}
+      </div>
     </div>
   )
 }

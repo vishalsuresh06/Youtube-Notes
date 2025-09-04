@@ -1,6 +1,5 @@
 import { doc, setDoc, serverTimestamp } from "firebase/firestore"
 import { db, auth } from "../firebase/index"
-import type { Note } from "../types"
 
 export async function saveNote(title: string, note: string, existingNoteId?: string | null): Promise<string> {
   if (!auth.currentUser) {
