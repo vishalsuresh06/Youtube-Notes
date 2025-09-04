@@ -1,59 +1,236 @@
-/* Notion-style Login Page */
+/* Notion-style Login Page with Plasma Background */
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Plasma Blob Elements - All in container background */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(191, 219, 254, 0.7) 0%, rgba(147, 197, 253, 0.4) 40%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: blobMove1 14s ease-in-out infinite;
+  z-index: 0;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  left: 60%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.8) 0%, rgba(96, 165, 250, 0.4) 40%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: blobMove2 16s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Additional blobs using box-shadow technique */
+.container {
+  --blob-3: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 40%, transparent 70%);
+  --blob-4: radial-gradient(circle, rgba(255, 107, 107, 0.7) 0%, rgba(255, 107, 107, 0.3) 40%, transparent 70%);
+  --blob-5: radial-gradient(circle, rgba(34, 197, 94, 0.6) 0%, rgba(34, 197, 94, 0.3) 40%, transparent 70%);
+  --blob-6: radial-gradient(circle, rgba(168, 85, 247, 0.7) 0%, rgba(168, 85, 247, 0.3) 40%, transparent 70%);
+  --blob-7: radial-gradient(circle, rgba(251, 191, 36, 0.6) 0%, rgba(251, 191, 36, 0.3) 40%, transparent 70%);
+}
+
+.container::before {
+  box-shadow: 
+    /* Blob 3 - Medium Blue */
+    800px 200px 0 0 rgba(147, 197, 253, 0.6),
+    800px 200px 50px 0 rgba(147, 197, 253, 0.2),
+    /* Blob 4 - Sky Blue */
+    200px 600px 0 0 rgba(96, 165, 250, 0.7),
+    200px 600px 50px 0 rgba(96, 165, 250, 0.3),
+    /* Blob 5 - Blue */
+    900px 700px 0 0 rgba(59, 130, 246, 0.6),
+    900px 700px 50px 0 rgba(59, 130, 246, 0.3),
+    /* Blob 6 - Darker Blue */
+    100px 300px 0 0 rgba(37, 99, 235, 0.7),
+    100px 300px 50px 0 rgba(37, 99, 235, 0.3),
+    /* Blob 7 - Deep Blue */
+    700px 500px 0 0 rgba(29, 78, 216, 0.6),
+    700px 500px 50px 0 rgba(29, 78, 216, 0.3);
+  animation: blobMove1 14s ease-in-out infinite, blobMove3 12s ease-in-out infinite, blobMove4 14s ease-in-out infinite, blobMove5 18s ease-in-out infinite, blobMove6 15s ease-in-out infinite, blobMove7 13s ease-in-out infinite;
+}
+
+.container::after {
+  box-shadow: 
+    /* Additional blobs for more coverage */
+    600px 100px 0 0 rgba(37, 99, 235, 0.6),
+    600px 100px 50px 0 rgba(37, 99, 235, 0.3),
+    400px 800px 0 0 rgba(29, 78, 216, 0.7),
+    400px 800px 50px 0 rgba(29, 78, 216, 0.3);
+  animation: blobMove2 16s ease-in-out infinite, blobMove8 17s ease-in-out infinite, blobMove9 19s ease-in-out infinite;
+}
+
+@keyframes blobMove1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(100px, -80px) scale(1.2);
+  }
+  50% {
+    transform: translate(-50px, 120px) scale(0.8);
+  }
+  75% {
+    transform: translate(80px, 50px) scale(1.1);
+  }
+}
+
+@keyframes blobMove2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-120px, -60px) scale(0.9);
+  }
+  66% {
+    transform: translate(60px, -100px) scale(1.3);
+  }
+}
+
+@keyframes blobMove3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(-100px, 80px) scale(1.2) rotate(180deg);
+  }
+}
+
+@keyframes blobMove4 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translate(120px, -60px) scale(0.8) rotate(90deg);
+  }
+  50% {
+    transform: translate(-80px, -120px) scale(1.3) rotate(180deg);
+  }
+  75% {
+    transform: translate(60px, 100px) scale(0.9) rotate(270deg);
+  }
+}
+
+@keyframes blobMove5 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-150px, 100px) scale(1.4);
+  }
+}
+
+@keyframes blobMove6 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(80px, -100px) scale(0.7) rotate(120deg);
+  }
+  66% {
+    transform: translate(-120px, 80px) scale(1.2) rotate(240deg);
+  }
+}
+
+@keyframes blobMove7 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(100px, 120px) scale(1.1);
+  }
+  75% {
+    transform: translate(-100px, -80px) scale(0.9);
+  }
+}
+
+@keyframes blobMove8 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(150px, -80px) scale(1.3) rotate(180deg);
+  }
+}
+
+@keyframes blobMove9 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(-100px, 150px) scale(0.8);
+  }
+  80% {
+    transform: translate(120px, -100px) scale(1.2);
+  }
 }
 
 .loginCard {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   padding: 48px 40px;
   max-width: 400px;
   width: 100%;
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-
-.loginCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #667eea, #764ba2);
+  z-index: 1;
 }
 
 .title {
   font-size: 28px;
-  font-weight: 600;
-  color: #2d3748;
+  font-weight: 700;
+  color: #ffffff;
   margin: 0 0 8px 0;
   letter-spacing: -0.025em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .subtitle {
   font-size: 16px;
-  color: #718096;
+  color: #f1f5f9;
   margin: 0 0 32px 0;
   line-height: 1.5;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .features {
   margin: 32px 0;
-  text-align: left;
+  text-align: center;
 }
 
 .feature {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 16px;
   padding: 12px 0;
   border-radius: 8px;
@@ -61,7 +238,8 @@
 }
 
 .feature:hover {
-  background-color: #f7fafc;
+  background-color: rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
 }
 
 .featureIcon {
@@ -73,30 +251,34 @@
 
 .featureText {
   font-size: 14px;
-  color: #4a5568;
-  font-weight: 500;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .loginButton {
-  background: #2d3748;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 14px 24px;
+  border-radius: 12px;
+  padding: 16px 24px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   width: 100%;
   margin-top: 24px;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .loginButton:hover {
-  background: #1a202c;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(45, 55, 72, 0.3);
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
 
 .loginButton:active {
@@ -110,8 +292,8 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
 }
 
 .loginButton:hover::before {
@@ -137,38 +319,6 @@
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .loginCard {
-    background: #1a202c;
-    color: #e2e8f0;
-  }
-  
-  .title {
-    color: #f7fafc;
-  }
-  
-  .subtitle {
-    color: #a0aec0;
-  }
-  
-  .featureText {
-    color: #cbd5e0;
-  }
-  
-  .feature:hover {
-    background-color: #2d3748;
-  }
-  
-  .loginButton {
-    background: #4a5568;
-  }
-  
-  .loginButton:hover {
-    background: #2d3748;
-  }
-}
-
 /* Animation for page load */
 @keyframes fadeInUp {
   from {
@@ -187,7 +337,7 @@
 
 /* Focus states for accessibility */
 .loginButton:focus {
-  outline: 2px solid #667eea;
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
