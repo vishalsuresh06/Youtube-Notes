@@ -1,6 +1,6 @@
 import { useFirebase } from "~firebase/hook"
 
-export default function IndexPopup() {
+export default function IndexSidePanel() {
   const { user, isLoading, onLogin, onLogout } = useFirebase()
 
   return (
