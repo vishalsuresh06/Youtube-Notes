@@ -9,7 +9,7 @@ import {
 import { getFirestore } from "firebase/firestore"
 import { useEffect, useMemo, useState } from "react"
 
-import { app, auth } from "~firebase"
+import { app, auth } from "./index"
 
 setPersistence(auth, browserLocalPersistence)
 

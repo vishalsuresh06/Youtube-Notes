@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../styles/sidepanel.module.css'
+import styles from '../../styles/sidepanel.module.css'
 
 interface LoginPageProps {
   onLogin: () => void

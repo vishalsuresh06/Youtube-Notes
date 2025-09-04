@@ -1,7 +1,6 @@
-import { useFirebase } from "~firebase/hook"
+import { useFirebase } from "./firebase/hook"
 import styles from "./styles/sidepanel.module.css"
-import Dashboard from "./components/Dashboard"
-import LoginPage from "./components/LoginPage"
+import { Dashboard, LoginPage } from "./components"
 
 export default function IndexSidePanel() {
   const { user, isLoading, onLogin } = useFirebase()
