@@ -4,7 +4,7 @@ import Dashboard from "./components/Dashboard"
 import LoginPage from "./components/LoginPage"
 
 export default function IndexSidePanel() {
-  const { user, isLoading, onLogin, onLogout } = useFirebase()
+  const { user, isLoading, onLogin } = useFirebase()
 
   const renderMainContent = () => {
     if (isLoading) {
@@ -19,7 +19,7 @@ export default function IndexSidePanel() {
     if (!user)
       return <LoginPage onLogin={onLogin} />
 
-    return <Dashboard user={user} onLogout={onLogout} />
+    return <Dashboard />
   }
 
   return (
