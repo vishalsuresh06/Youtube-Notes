@@ -1,69 +1,38 @@
 import { useFirebase } from "~firebase/hook"
 import styles from "./styles/sidepanel.module.css"
+import Dashboard from "./components/Dashboard"
+import LoginPage from "./components/LoginPage"
 
 export default function IndexSidePanel() {
   const { user, isLoading, onLogin, onLogout } = useFirebase()
 
-  const renderAuthButton = () => {
-    if (!user) {
+  const renderMainContent = () => {
+    if (isLoading) {
       return (
-        <button 
-          className={styles.button} 
-          onClick={onLogin}
-        >
-          Log in
-        </button>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p>Checking authentication...</p>
+        </div>
       )
     }
 
-    return (
-      <button 
-        className={styles.button} 
-        onClick={onLogout}
-      >
-        Log out
-      </button>
-    )
-  }
+    if (!user)
+      return <LoginPage onLogin={onLogin} />
 
-  const renderUserInfo = () => {
-    if (isLoading) {
-      return <span className={styles.loading}>Loading...</span>
-    }
-
-    if (!user) {
-      return null
-    }
-
-    return (
-      <div className={styles.welcome}>
-        Welcome to Plasmo, {user.displayName}! 
-        <br />
-        Your email address is {user.email}
-      </div>
-    )
+    return <Dashboard user={user} onLogout={onLogout} />
   }
 
   return (
     <div className={styles.container}>
       <header>
         <h1 className={styles.title}>
-          Welcome to your{" "}
-          <a href="https://www.plasmo.com" target="_blank" rel="noopener noreferrer">
-            Plasmo
-          </a>{" "}
-          Extension!
+          YouTube Notes
         </h1>
       </header>
 
       <main className={styles.content}>
-        {renderAuthButton()}
-        {renderUserInfo()}
+        {renderMainContent()}
       </main>
-
-      <footer className={styles.footer}>
-        Crafted by @PlasmoHQ
-      </footer>
     </div>
   )
 }
