@@ -20,7 +20,6 @@ function NotesDisplay({ notes, onEditNote }: { notes: Note[], onEditNote: (note:
           style={{ cursor: 'pointer' }}
         >
           <h4>{note.title || 'Untitled'}</h4>
-          {note.note && <p>{note.note}</p>}
         </div>
       ))}
     </div>
