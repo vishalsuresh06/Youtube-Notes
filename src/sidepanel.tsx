@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useFirebase } from "./firebase/hook"
 import { Dashboard, LoginPage } from "./components"
+import "./global.css"
 
 export default function IndexSidePanel() {
   const { user, isLoading, onLogin } = useFirebase()
