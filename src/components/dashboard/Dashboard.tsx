@@ -1,23 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
-import styles from './dashboard.module.css'
 import UserHeader from './UserHeader'
 import GetNotes from './GetNotes'
+import NewNote from '../note/NewNote'
+import ExistingNote from '../note/ExistingNote'
+import type { Note } from '../../types'
 
-const Dashboard = () => {
+interface DashboardProps {
+  onViewChange?: (view: 'dashboard' | 'new-note' | 'edit-note') => void
+}
+
+const Dashboard = ({ onViewChange }: DashboardProps) => {
   const { user, onLogout } = useFirebase()
+  const [currentView, setCurrentView] = useState<'dashboard' | 'new-note' | 'edit-note'>('dashboard')
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+
+  const handleAddNote = () => {
+    setCurrentView('new-note')
+    onViewChange?.('new-note')
+  }
+
+  const handleEditNote = (note: Note) => {
+    setSelectedNote(note)
+    setCurrentView('edit-note')
+    onViewChange?.('edit-note')
+  }
+
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard')
+    setSelectedNote(null)
+    onViewChange?.('dashboard')
+  }
 
   return (
     <div>
-      <UserHeader 
-        displayName={user?.displayName}
-        email={user?.email}
-        onLogout={onLogout}
-      />
-
-      <hr />
+      {currentView === 'dashboard' && (
+        <>
+          <UserHeader 
+            displayName={user?.displayName}
+            email={user?.email}
+            onLogout={onLogout}
+          />
+          <hr />
+        </>
+      )}
       
-      <GetNotes email={user?.email} />
+      {currentView === 'dashboard' ? (
+        <GetNotes 
+          email={user?.email} 
+          onAddNote={handleAddNote}
+          onEditNote={handleEditNote}
+        />
+      ) : currentView === 'new-note' ? (
+        <NewNote onBack={handleBackToDashboard} />
+      ) : (
+        selectedNote && <ExistingNote note={selectedNote} onBack={handleBackToDashboard} />
+      )}
     </div>
   )
 }

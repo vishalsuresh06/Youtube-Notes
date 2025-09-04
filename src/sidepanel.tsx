@@ -1,15 +1,15 @@
+import { useState } from "react"
 import { useFirebase } from "./firebase/hook"
-import styles from "./sidepanel.module.css"
 import { Dashboard, LoginPage } from "./components"
 
 export default function IndexSidePanel() {
   const { user, isLoading, onLogin } = useFirebase()
+  const [currentView, setCurrentView] = useState<'dashboard' | 'new-note' | 'edit-note'>('dashboard')
 
   const renderMainContent = () => {
     if (isLoading) {
       return (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
+        <div>
           <p>Checking authentication...</p>
         </div>
       )
@@ -18,18 +18,20 @@ export default function IndexSidePanel() {
     if (!user)
       return <LoginPage onLogin={onLogin} />
 
-    return <Dashboard />
+    return <Dashboard onViewChange={setCurrentView} />
   }
 
   return (
-    <div className={styles.container}>
-      <header>
-        <h1 className={styles.title}>
-          YouTube Notes
-        </h1>
-      </header>
+    <div>
+      {currentView === 'dashboard' && (
+        <header>
+          <h1>
+            YouTube Notes
+          </h1>
+        </header>
+      )}
 
-      <main className={styles.content}>
+      <main>
         {renderMainContent()}
       </main>
     </div>

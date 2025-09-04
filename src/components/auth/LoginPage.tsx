@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from './login.module.css'
 
 interface LoginPageProps {
   onLogin: () => void
@@ -7,28 +6,25 @@ interface LoginPageProps {
 
 const LoginPage = ({ onLogin }: LoginPageProps) => {
   return (
-    <div className={styles.authPrompt}>
-      <div className={styles.authIcon}>🔐</div>
+    <div>
+      <div>🔐</div>
       <h2>Welcome to YouTube Notes</h2>
       <p>Please log in to access your personalized notes and features.</p>
-      <div className={styles.authBenefits}>
-        <div className={styles.benefit}>
-          <span className={styles.benefitIcon}>📝</span>
+      <div>
+        <div>
+          <span>📝</span>
           <span>Create and manage notes</span>
         </div>
-        <div className={styles.benefit}>
-          <span className={styles.benefitIcon}>🎯</span>
+        <div>
+          <span>🎯</span>
           <span>Personalized experience</span>
         </div>
-        <div className={styles.benefit}>
-          <span className={styles.benefitIcon}>💾</span>
+        <div>
+          <span>💾</span>
           <span>Sync across devices</span>
         </div>
       </div>
-      <button 
-        className={styles.button} 
-        onClick={onLogin}
-      >
+      <button onClick={onLogin}>
         Log in with Google
       </button>
     </div>

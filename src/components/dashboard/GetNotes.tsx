@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react'
-import styles from './dashboard.module.css'
 import type { Note } from '../../types'
 import { getAllNotes } from '../../utils'
 
 interface GetNotesProps {
   email: string | null
+  onAddNote: () => void
+  onEditNote: (note: Note) => void
 }
 
-function NotesDisplay({ notes }: { notes: Note[] }) {
+function NotesDisplay({ notes, onEditNote }: { notes: Note[], onEditNote: (note: Note) => void }) {
   if (notes.length === 0) 
     return <div>No notes found</div>
   return (
     <div>
       {notes.map((note) => (
-        <div key={note.id}>{note.title}</div>
+        <div 
+          key={note.id} 
+          onClick={() => onEditNote(note)}
+          style={{ cursor: 'pointer' }}
+        >
+          <h4>{note.title || 'Untitled'}</h4>
+          {note.note && <p>{note.note}</p>}
+        </div>
       ))}
     </div>
   )
 }
 
-const GetNotes = ({ email }: GetNotesProps) => {
+const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -37,15 +45,22 @@ const GetNotes = ({ email }: GetNotesProps) => {
   
   return (
     <div>
-      <h1> Your Notes</h1>
-      <input type="text" placeholder="Search notes" />
+      <div>
+        <h1>Your Notes</h1>
+        <button onClick={onAddNote}>Add Note</button>
+      </div>
+      <div>
+        <input 
+          type="text" 
+          placeholder="Search notes..." 
+        />
+      </div>
       {loading ? (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
+        <div>
           <p>Loading notes...</p>
         </div>
       ) : (
-        <NotesDisplay notes={notes} />
+        <NotesDisplay notes={notes} onEditNote={onEditNote} />
       )}
     </div>
   )
