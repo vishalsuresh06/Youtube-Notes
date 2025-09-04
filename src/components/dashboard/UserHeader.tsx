@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../styles/dashboard.module.css'
+import styles from './dashboard.module.css'
 
 interface UserHeaderProps {
   displayName: string | null

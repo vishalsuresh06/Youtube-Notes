@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from '../../styles/dashboard.module.css'
+import styles from './dashboard.module.css'
 import type { Note } from '../../types'
 import { getAllNotes } from '../../utils'
 

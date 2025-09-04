@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFirebase } from '../../firebase/hook'
-import styles from '../../styles/dashboard.module.css'
+import styles from './dashboard.module.css'
 import UserHeader from './UserHeader'
 import GetNotes from './GetNotes'
 

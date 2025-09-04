@@ -1,5 +1,5 @@
 import { useFirebase } from "./firebase/hook"
-import styles from "./styles/sidepanel.module.css"
+import styles from "./sidepanel.module.css"
 import { Dashboard, LoginPage } from "./components"
 
 export default function IndexSidePanel() {
