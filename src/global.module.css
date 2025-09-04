@@ -1,0 +1,16 @@
+/* Global styles for YouTube Notes extension */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#plasmo-shadow-container {
+  width: 100%;
+  height: 100%;
+}
+

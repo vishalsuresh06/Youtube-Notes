@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore"
 import { useCallback, useEffect, useMemo, useState } from "react"
 
-import { useFirebase } from "~firebase/hook"
+import { useFirebase } from "./hook"
 
 export const useFirestoreDoc = <T = any>(docPath: string) => {
   const { firestore } = useFirebase()
