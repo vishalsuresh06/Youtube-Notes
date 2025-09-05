@@ -146,28 +146,52 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 ## 📁 Project Structure
 
 ```
-src/
-├── sidepanel/              # Sidepanel React application
-│   ├── index.tsx          # Main sidepanel component
-│   ├── components/        # UI components
-│   └── hooks/             # Custom React hooks
-├── background/            # Service worker scripts
-│   └── index.ts          # Background script entry point
-├── content/              # Content scripts for YouTube integration
-│   └── youtube.ts        # YouTube page integration
-├── components/           # Shared UI components
-│   ├── ui/              # shadcn/ui components
-│   └── common/          # Custom shared components
-├── lib/                 # Utilities and configurations
-│   ├── firebase.ts      # Firebase configuration
-│   ├── utils.ts         # Helper functions
-│   └── types.ts         # TypeScript type definitions
-├── stores/              # Zustand state management
-│   ├── auth.ts          # Authentication state
-│   └── notes.ts         # Notes state management
-└── assets/              # Static assets
-    ├── icon.png         # Extension icon
-    └── styles/          # Global styles
+youtube-notes/
+├── src/
+│   ├── sidepanel.tsx           # Main sidepanel component
+│   ├── background.ts           # Background script entry point
+│   ├── components/             # React components
+│   │   ├── auth/              # Authentication components
+│   │   │   ├── LoginPage.tsx  # Login interface
+│   │   │   ├── login.module.css
+│   │   │   └── index.ts
+│   │   ├── dashboard/         # Dashboard components
+│   │   │   ├── Dashboard.tsx  # Main dashboard
+│   │   │   ├── GetNotes.tsx   # Notes retrieval component
+│   │   │   ├── UserHeader.tsx # User profile header
+│   │   │   ├── dashboard.module.css
+│   │   │   └── index.ts
+│   │   ├── note/             # Note-related components
+│   │   │   ├── ExistingNote.tsx # Edit existing notes
+│   │   │   ├── NewNote.tsx    # Create new notes
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── firebase/             # Firebase integration
+│   │   ├── index.ts          # Firebase configuration
+│   │   ├── hook.ts           # Firebase hooks
+│   │   └── use-firestore-doc.ts # Firestore document hook
+│   ├── hooks/                # Custom React hooks
+│   │   └── useDebounce.ts    # Debounce utility hook
+│   ├── types/                # TypeScript type definitions
+│   │   ├── index.ts          # Main type exports
+│   │   ├── Note.ts           # Note type definitions
+│   │   └── svg.d.ts          # SVG module declarations
+│   ├── utils/                # Utility functions
+│   │   ├── delete-note.ts    # Note deletion utility
+│   │   ├── get-notes.ts      # Notes retrieval utility
+│   │   ├── save-note.ts      # Note saving utility
+│   │   └── index.ts
+│   └── global.module.css     # Global styles
+├── assets/                   # Static assets
+│   ├── delete.svg           # Delete icon
+│   ├── edit.svg             # Edit icon
+│   └── icon.png             # Extension icon
+├── build/                   # Build output
+│   ├── chrome-mv3-dev/      # Development build
+│   └── chrome-mv3-prod/     # Production build
+├── package.json             # Dependencies and scripts
+├── tsconfig.json            # TypeScript configuration
+└── README.md               # Project documentation
 ```
 
 ## 🎯 Usage
@@ -242,37 +266,6 @@ The extension requires these permissions:
 - Check your internet connection
 - Verify Firestore security rules are correctly configured
 - Check browser console for any error messages
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Plasmo](https://plasmo.com/) for the excellent Chrome extension framework
-- [Firebase](https://firebase.google.com/) for backend services
-- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
-- [Lucide](https://lucide.dev/) for icons
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/yourusername/youtube-notes-extension/issues) page
-2. Create a new issue with detailed information
-3. Join our [Discord community](https://discord.gg/your-invite-link) for discussions
 
 ## 🗺️ Long-term Roadmap
 
