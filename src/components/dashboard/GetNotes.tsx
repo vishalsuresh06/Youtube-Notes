@@ -6,12 +6,12 @@ import type { GetNotesProps, NotesDisplayProps } from '../../types'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
 
-const NotesDisplay: React.FC<NotesDisplayProps> = ({ 
+const NotesDisplay = ({ 
   notes, 
   usedSearch, 
   onEditNote, 
   onDeleteNote 
-}) => {
+}: NotesDisplayProps) => {
   const handleDeleteNote = (note: any) => {
     onDeleteNote(note.id)
   }
@@ -52,7 +52,7 @@ const NotesDisplay: React.FC<NotesDisplayProps> = ({
   )
 }
 
-const GetNotes: React.FC<GetNotesProps> = ({ email, onAddNote, onEditNote }) => {
+const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
   const {
     filteredNotes,
     loading,
@@ -65,7 +65,7 @@ const GetNotes: React.FC<GetNotesProps> = ({ email, onAddNote, onEditNote }) => 
     <div className={styles.notesSection}>
       <div className={styles.notesHeader}>
         <h2 className={styles.notesTitle}>Your Notes</h2>
-        <Button onClick={onAddNote} variant="primary">
+        <Button onClick={onAddNote} variant="secondary">
           <span>+</span> {MESSAGES.BUTTONS.ADD_NOTE}
         </Button>
       </div>

@@ -13,7 +13,7 @@ interface ButtonProps {
   'aria-label'?: string
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   children,
   onClick,
   variant = 'primary',
@@ -22,7 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   type = 'button',
   className = '',
   'aria-label': ariaLabel
-}) => {
+}: ButtonProps) => {
   const buttonClasses = [
     styles.button,
     styles[variant],

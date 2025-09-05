@@ -4,7 +4,7 @@ import { MESSAGES } from '../../constants/messages'
 import type { NoteEditorProps } from '../../types'
 import styles from './note.module.css'
 
-const NoteEditor: React.FC<NoteEditorProps> = ({ initialNote, onBack }) => {
+const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   const {
     title,
     setTitle,

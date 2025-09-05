@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import React, { Component } from 'react'
+import type { ErrorInfo, ReactNode } from 'react'
 import { Button, EmptyState } from './ui'
 import { MESSAGES } from '../constants'
 import styles from './ErrorBoundary.module.css'

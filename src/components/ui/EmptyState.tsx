@@ -9,12 +9,12 @@ interface EmptyStateProps {
   action?: React.ReactNode
 }
 
-const EmptyState: React.FC<EmptyStateProps> = ({
+const EmptyState = ({
   title,
   message,
   icon,
   action
-}) => {
+}: EmptyStateProps) => {
   return (
     <div className={styles.container}>
       {icon && <div className={styles.icon}>{icon}</div>}

@@ -1,10 +1,12 @@
 import {
   doc,
-  DocumentData,
-  DocumentSnapshot,
   getDoc,
   onSnapshot,
   setDoc
+} from "firebase/firestore"
+import type {
+  DocumentData,
+  DocumentSnapshot
 } from "firebase/firestore"
 import { useCallback, useEffect, useMemo, useState } from "react"
 

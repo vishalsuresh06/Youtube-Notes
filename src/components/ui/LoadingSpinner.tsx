@@ -7,10 +7,10 @@ interface LoadingSpinnerProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+const LoadingSpinner = ({ 
   message = 'Loading...', 
   size = 'medium' 
-}) => {
+}: LoadingSpinnerProps) => {
   return (
     <div className={styles.container}>
       <div className={`${styles.spinner} ${styles[size]}`} />

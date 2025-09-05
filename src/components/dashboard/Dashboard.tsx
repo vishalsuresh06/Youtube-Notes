@@ -1,21 +1,29 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
 import { useYouTubeValidation } from '../../hooks/useYouTubeValidation'
+import { getCurrentTabUrl, checkYoutubeUrl } from '../../utils'
 import { UserHeader, GetNotes } from './index'
 import { NewNote, ExistingNote, YTWarningPopup } from '../note'
 import { VIEW_TYPES } from '../../constants'
 import type { DashboardProps, Note, ViewType } from '../../types'
 import styles from './dashboard.module.css'
 
-const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
+const Dashboard = ({ onViewChange }: DashboardProps) => {
   const { user, onLogout } = useFirebase()
-  const { isValidYouTube } = useYouTubeValidation()
+  const { isValidYouTube, checkUrl } = useYouTubeValidation()
   const [currentView, setCurrentView] = useState<ViewType>(VIEW_TYPES.DASHBOARD)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [showWarning, setShowWarning] = useState(false)
 
   const handleAddNote = async () => {
-    if (!isValidYouTube) {
+    // Always check the current URL before proceeding
+    await checkUrl()
+    
+    // Get the updated validation state after checking
+    const url = await getCurrentTabUrl()
+    const isValid = url ? checkYoutubeUrl(url) : false
+    
+    if (!isValid) {
       setShowWarning(true)
       return
     }
