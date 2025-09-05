@@ -1,5 +1,4 @@
 import React from 'react'
-import { UI_CONSTANTS } from '../../constants'
 import styles from './LoadingSpinner.module.css'
 
 interface LoadingSpinnerProps {

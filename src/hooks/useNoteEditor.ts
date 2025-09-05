@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from './useDebounce'
-import { saveNote, checkYoutubeUrl, getCurrentTabUrl } from '../utils'
+import { saveNote } from '../utils'
 import type { Note } from '../types'
 
 interface UseNoteEditorOptions {
@@ -34,15 +34,7 @@ export const useNoteEditor = ({ initialNote }: UseNoteEditorOptions): UseNoteEdi
       return // Don't save empty notes
     }
 
-    // For new notes, check if we're on YouTube
-    if (!initialNote) {
-      const currentTabUrl = await getCurrentTabUrl()
-      if (!currentTabUrl || !checkYoutubeUrl(currentTabUrl)) {
-        setSaveStatus('error')
-        return
-      }
-    }
-
+    // Dashboard already validated YouTube URL for new notes, so we can proceed
     setSaveStatus('saving')
     
     try {
@@ -56,7 +48,7 @@ export const useNoteEditor = ({ initialNote }: UseNoteEditorOptions): UseNoteEdi
       console.error('Failed to save note:', error)
       setSaveStatus('error')
     }
-  }, [title, noteContent, noteId, initialNote])
+  }, [title, noteContent, noteId])
 
   const debouncedSave = useDebounce(performSave, 2000) // 2s delay
 

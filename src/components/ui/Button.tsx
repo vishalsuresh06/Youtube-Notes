@@ -1,5 +1,4 @@
 import React from 'react'
-import { UI_CONSTANTS } from '../../constants'
 import styles from './Button.module.css'
 
 interface ButtonProps {

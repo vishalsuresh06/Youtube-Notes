@@ -2,7 +2,7 @@ import React from 'react'
 import { useNotes } from '../../hooks/useNotes'
 import { Button, LoadingSpinner, EmptyState } from '../ui'
 import { MESSAGES } from '../../constants/messages'
-import type { GetNotesProps, NotesDisplayProps } from '../../types'
+import type { GetNotesProps, NotesDisplayProps, Note } from '../../types'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
 
@@ -12,7 +12,7 @@ const NotesDisplay = ({
   onEditNote, 
   onDeleteNote 
 }: NotesDisplayProps) => {
-  const handleDeleteNote = (note: any) => {
+  const handleDeleteNote = (note: Note) => {
     onDeleteNote(note.id)
   }
 
