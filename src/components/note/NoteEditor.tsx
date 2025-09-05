@@ -13,7 +13,11 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   const [title, setTitle] = useState(initialNote?.title || '')
   const [noteContent, setNoteContent] = useState(initialNote?.note || '')
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
-  const [lastSavedTime, setLastSavedTime] = useState<Date | null>(null)
+  const [lastSavedTime, setLastSavedTime] = useState<Date | null>(
+    initialNote?.updatedAt ? 
+      (initialNote.updatedAt instanceof Date ? initialNote.updatedAt : (initialNote.updatedAt as any).toDate()) 
+      : null
+  )
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
 
   // Create the save function
@@ -25,12 +29,12 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     setSaveStatus('saving')
     
     try {
-      const savedNoteId = await saveNote(title, noteContent, noteId)
+      const { noteId: savedNoteId, savedAt } = await saveNote(title, noteContent, noteId)
       if (savedNoteId && !noteId) {
         setNoteId(savedNoteId)
       }
       setSaveStatus('saved')
-      setLastSavedTime(new Date())
+      setLastSavedTime(savedAt)
     } catch (error) {
       console.error('Failed to save note:', error)
       setSaveStatus('error')
@@ -55,13 +59,24 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     }
   }, [title, noteContent, debouncedSave, initialNote])
 
+  const formatTime = (date: Date | any) => {
+    // Ensure we have a proper Date object
+    const dateObj = date instanceof Date ? date : new Date(date)
+    return dateObj.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    })
+  }
+
   const getStatusMessage = () => {
     switch (saveStatus) {
       case 'saving':
         return { text: 'Saving...', className: styles.statusSaving }
       case 'idle':
       case 'saved':
-        return lastSavedTime ? { text: 'Last Saved: ' + lastSavedTime.toLocaleString().split(',')[1], className: styles.statusSaved } : null
+        return lastSavedTime ? { text: 'Last Saved: ' + formatTime(lastSavedTime), className: styles.statusSaved } : null
       case 'error':
         return { text: 'Save failed', className: styles.statusError }
       default:
