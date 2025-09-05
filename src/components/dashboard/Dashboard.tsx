@@ -1,49 +1,45 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
+import { useYouTubeValidation } from '../../hooks/useYouTubeValidation'
 import { UserHeader, GetNotes } from './index'
 import { NewNote, ExistingNote, YTWarningPopup } from '../note'
-import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
-import type { Note } from '../../types'
+import { VIEW_TYPES } from '../../constants'
+import type { DashboardProps, Note, ViewType } from '../../types'
 import styles from './dashboard.module.css'
 
-interface DashboardProps {
-  onViewChange?: (view: 'dashboard' | 'new-note' | 'edit-note') => void
-}
-
-const Dashboard = ({ onViewChange }: DashboardProps) => {
+const Dashboard: React.FC<DashboardProps> = ({ onViewChange }) => {
   const { user, onLogout } = useFirebase()
-  const [currentView, setCurrentView] = useState<'dashboard' | 'new-note' | 'edit-note'>('dashboard')
+  const { isValidYouTube } = useYouTubeValidation()
+  const [currentView, setCurrentView] = useState<ViewType>(VIEW_TYPES.DASHBOARD)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
   const [showWarning, setShowWarning] = useState(false)
 
   const handleAddNote = async () => {
-    const currentTabUrl = await getCurrentTabUrl()
-    
-    if (!currentTabUrl || !checkYoutubeUrl(currentTabUrl)) {
+    if (!isValidYouTube) {
       setShowWarning(true)
       return
     }
     
-    setCurrentView('new-note')
-    onViewChange?.('new-note')
+    setCurrentView(VIEW_TYPES.NEW_NOTE)
+    onViewChange?.(VIEW_TYPES.NEW_NOTE)
   }
 
   const handleEditNote = (note: Note) => {
     setSelectedNote(note)
-    setCurrentView('edit-note')
-    onViewChange?.('edit-note')
+    setCurrentView(VIEW_TYPES.EDIT_NOTE)
+    onViewChange?.(VIEW_TYPES.EDIT_NOTE)
   }
 
   const handleBackToDashboard = () => {
-    setCurrentView('dashboard')
+    setCurrentView(VIEW_TYPES.DASHBOARD)
     setSelectedNote(null)
-    onViewChange?.('dashboard')
+    onViewChange?.(VIEW_TYPES.DASHBOARD)
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {currentView === 'dashboard' && (
+        {currentView === VIEW_TYPES.DASHBOARD && (
           <>
             <UserHeader 
               displayName={user?.displayName}
@@ -54,13 +50,13 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
           </>
         )}
         
-        {currentView === 'dashboard' ? (
+        {currentView === VIEW_TYPES.DASHBOARD ? (
           <GetNotes 
             email={user?.email} 
             onAddNote={handleAddNote}
             onEditNote={handleEditNote}
           />
-        ) : currentView === 'new-note' ? (
+        ) : currentView === VIEW_TYPES.NEW_NOTE ? (
           <NewNote onBack={handleBackToDashboard} />
         ) : (
           selectedNote && <ExistingNote note={selectedNote} onBack={handleBackToDashboard} />

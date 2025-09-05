@@ -1,46 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import type { Note } from '../../types'
-import { getAllNotes, deleteNote } from '../../utils'
+import React from 'react'
+import { useNotes } from '../../hooks/useNotes'
+import { Button, LoadingSpinner, EmptyState } from '../ui'
+import { MESSAGES } from '../../constants/messages'
+import type { GetNotesProps, NotesDisplayProps } from '../../types'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
 
-interface GetNotesProps {
-  email: string | null
-  onAddNote: () => void
-  onEditNote: (note: Note) => void
-}
-function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: { 
-  notes: Note[], 
-  usedSearch: boolean,
-  onEditNote: (note: Note) => void,
-  onDeleteNote: (noteId: string) => void 
-}) {
-  const handleDeleteNote = (note: Note) => {
-    deleteNote(note.id)
+const NotesDisplay: React.FC<NotesDisplayProps> = ({ 
+  notes, 
+  usedSearch, 
+  onEditNote, 
+  onDeleteNote 
+}) => {
+  const handleDeleteNote = (note: any) => {
     onDeleteNote(note.id)
   }
 
-  if (notes.length === 0) 
+  if (notes.length === 0) {
     return (
-      <div className={styles.emptyState}>
-        <h3 className={styles.emptyStateTitle}>No notes found</h3>
-        <p className={styles.emptyStateText}>
-          {usedSearch ? 'Try a different search!' : 'Start by creating your first note!'}
-        </p>
-      </div>
+      <EmptyState
+        title={MESSAGES.EMPTY_STATES.NO_NOTES_TITLE}
+        message={usedSearch ? MESSAGES.EMPTY_STATES.NO_SEARCH_RESULTS : MESSAGES.EMPTY_STATES.NO_NOTES_MESSAGE}
+      />
     )
+  }
+
   return (
     <div className={styles.notesList}>
-      {notes.map((note, index) => (
-        <div 
-          key={note.id} 
-          className={styles.noteCard}
-        >
-          <div onClick={() => onEditNote(note)} style={{ cursor: 'pointer', flex: 1 }}>
-            <h4 className={styles.noteTitle}>{note.title || 'Untitled'}</h4>
+      {notes.map((note) => (
+        <div key={note.id} className={styles.noteCard}>
+          <div 
+            onClick={() => onEditNote(note)} 
+            style={{ cursor: 'pointer', flex: 1 }}
+          >
+            <h4 className={styles.noteTitle}>
+              {note.title || MESSAGES.PLACEHOLDERS.NOTE_TITLE}
+            </h4>
           </div>
           <div className={styles.noteActions}>
-            <button className={styles.deleteNoteButton} onClick={() => handleDeleteNote(note)}><img src={deleteIcon} alt="Delete" /></button>
+            <button 
+              className={styles.deleteNoteButton} 
+              onClick={() => handleDeleteNote(note)}
+              aria-label={MESSAGES.BUTTONS.DELETE}
+            >
+              <img src={deleteIcon} alt={MESSAGES.BUTTONS.DELETE} />
+            </button>
           </div>
         </div>
       ))}
@@ -48,60 +52,41 @@ function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: {
   )
 }
 
-const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
-  const [notes, setNotes] = useState<Note[]>([])
-  const [loading, setLoading] = useState(false)
-  const [userSearch, setUserSearch] = useState('')
-  const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
-
-  useEffect(() => {
-    if (userSearch.trim() !== '') {
-      setFilteredNotes(notes.filter(note => note.title.toLowerCase().trim().includes(userSearch.toLowerCase().trim())))
-    } else {
-      setFilteredNotes(notes)
-    }
-  }, [userSearch, notes])
-
-  useEffect(() => {
-    if (email) {
-      setLoading(true)
-      getAllNotes(email)
-        .then(setNotes)
-        .catch((error) => {
-          console.error('Failed to fetch notes:', error)
-        })
-        .finally(() => setLoading(false))
-    }
-  }, [email])
-
-  const handleDeleteNote = (noteId: string) => {
-    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
-    setFilteredNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
-  }
+const GetNotes: React.FC<GetNotesProps> = ({ email, onAddNote, onEditNote }) => {
+  const {
+    filteredNotes,
+    loading,
+    searchQuery,
+    setSearchQuery,
+    handleDeleteNote
+  } = useNotes({ email })
   
   return (
     <div className={styles.notesSection}>
       <div className={styles.notesHeader}>
         <h2 className={styles.notesTitle}>Your Notes</h2>
-        <button onClick={onAddNote} className={styles.addNoteButton}>
-          <span>+</span> Add Note
-        </button>
+        <Button onClick={onAddNote} variant="primary">
+          <span>+</span> {MESSAGES.BUTTONS.ADD_NOTE}
+        </Button>
       </div>
       <div className={styles.searchContainer}>
         <input 
           type="text" 
-          placeholder="Search notes..." 
+          placeholder={MESSAGES.PLACEHOLDERS.SEARCH_NOTES}
           className={styles.searchInput}
-          value={userSearch}
-          onChange={(e) => setUserSearch(e.target.value)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
       {loading ? (
-        <div className={styles.loadingContainer}>
-          <p className={styles.loadingText}>Loading notes...</p>
-        </div>
+        <LoadingSpinner message={MESSAGES.LOADING.NOTES} />
       ) : (
-        <NotesDisplay notes={filteredNotes} usedSearch={userSearch.trim() !== ''} onEditNote={onEditNote} onDeleteNote={handleDeleteNote} />
+        <NotesDisplay 
+          notes={filteredNotes} 
+          usedSearch={searchQuery.trim() !== ''} 
+          onEditNote={onEditNote} 
+          onDeleteNote={handleDeleteNote} 
+        />
       )}
     </div>
   )
