@@ -10,6 +10,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.7",
     "firebase": "10.7.2",
     "plasmo": "0.90.5",
     "react": "18.2.0",
@@ -31,7 +32,8 @@
     ],
     "permissions": [
       "identity",
-      "sidePanel"
+      "sidePanel",
+      "tabs"
     ],
     "oauth2": {
       "client_id": "$PLASMO_PUBLIC_FIREBASE_CLIENT_ID",

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
 import { UserHeader, GetNotes } from './index'
-import { NewNote, ExistingNote } from '../note'
+import { NewNote, ExistingNote, YTWarningPopup } from '../note'
+import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
 import styles from './dashboard.module.css'
 
@@ -13,8 +14,16 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
   const { user, onLogout } = useFirebase()
   const [currentView, setCurrentView] = useState<'dashboard' | 'new-note' | 'edit-note'>('dashboard')
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+  const [showWarning, setShowWarning] = useState(false)
 
-  const handleAddNote = () => {
+  const handleAddNote = async () => {
+    const currentTabUrl = await getCurrentTabUrl()
+    
+    if (!currentTabUrl || !checkYoutubeUrl(currentTabUrl)) {
+      setShowWarning(true)
+      return
+    }
+    
     setCurrentView('new-note')
     onViewChange?.('new-note')
   }
@@ -57,6 +66,11 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
           selectedNote && <ExistingNote note={selectedNote} onBack={handleBackToDashboard} />
         )}
       </div>
+      
+      <YTWarningPopup 
+        isOpen={showWarning} 
+        onClose={() => setShowWarning(false)} 
+      />
     </div>
   )
 }

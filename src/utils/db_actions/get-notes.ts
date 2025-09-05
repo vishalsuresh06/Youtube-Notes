@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs, setDoc, doc } from "firebase/firestore"
-import { db, auth } from "../firebase/index"
-import type { Note } from "../types"
+import { db, auth } from "../../firebase/index"
+import type { Note } from "../../types"
 
 // Check if user is authenticated
 function checkAuth() {

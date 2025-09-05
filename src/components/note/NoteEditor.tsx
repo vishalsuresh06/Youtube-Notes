@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from '../../hooks/useDebounce'
-import { saveNote } from '../../utils'
+import { saveNote, checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
 import styles from './note.module.css'
 
@@ -24,6 +24,15 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   const performSave = useCallback(async () => {
     if (!title.trim() && !noteContent.trim()) {
       return // Don't save empty notes
+    }
+
+    // For new notes, check if we're on YouTube
+    if (!initialNote) {
+      const currentTabUrl = await getCurrentTabUrl()
+      if (!currentTabUrl || !checkYoutubeUrl(currentTabUrl)) {
+        setSaveStatus('error')
+        return
+      }
     }
 
     setSaveStatus('saving')
