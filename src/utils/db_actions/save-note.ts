@@ -1,4 +1,5 @@
 import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore"
+import { getCurrentTabUrl } from "../get-current-tab-url"
 import { db, auth } from "../../firebase/index"
 
 export async function saveNote(title: string, note: string, existingNoteId?: string | null): Promise<{ noteId: string, savedAt: Date }> {
@@ -15,10 +16,12 @@ export async function saveNote(title: string, note: string, existingNoteId?: str
   // Use existing note ID or create a new one
   const noteId = existingNoteId || `${userId}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   
+  const currentUrl = await getCurrentTabUrl()
+  
   const noteData: any = {
     title: title.trim(),
     note: note.trim(),
-    url: window.location.href,
+    url: currentUrl || '',
     userId,
     updatedAt: serverTimestamp()
   }
