@@ -22,15 +22,15 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 
 ## 📊 Progress Tracker
 
-### Overall Progress: 56% Complete
+### Overall Progress: 67% Complete
 
 | Phase | Status | Progress | Description |
 |-------|--------|----------|-------------|
 | 🏗️ **Setup & Infrastructure** | ✅ Complete | 100% | Project initialization, tech stack decisions |
 | 🔐 **Authentication** | ✅ Complete | 100% | Firebase Auth integration, Google OAuth |
-| 📝 **Core Note-Taking** | 📋 In Progress | 75% | Basic CRUD operations for notes |
+| 📝 **Core Note-Taking** | ✅ Complete | 100% | Basic CRUD operations for notes |
 | 🔗 **YouTube Integration** | 📋 Planned | 0% | Video detection, URL syncing |
-| ☁️ **Cloud Synchronization** | 📋 In Progress | 50% | Real-time sync across devices |
+| ☁️ **Cloud Synchronization** | ✅ Complete | 100% | Real-time sync across devices |
 | 🎨 **UI/UX Polish** | 📋 In Progress | 66% | Responsive design, user experience |
 | 🚀 **Testing & Deployment** | 📋 Planned | 0% | QA, Chrome Web Store submission |
 
