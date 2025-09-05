@@ -3,6 +3,7 @@ import type { Note } from '../../types'
 import { getAllNotes } from '../../utils'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
+import { deleteNote } from '../../utils/delete-note'
 
 interface GetNotesProps {
   email: string | null
@@ -10,7 +11,17 @@ interface GetNotesProps {
   onEditNote: (note: Note) => void
 }
 
-function NotesDisplay({ notes, onEditNote }: { notes: Note[], onEditNote: (note: Note) => void }) {
+function NotesDisplay({ notes, onEditNote, onDeleteNote }: { 
+  notes: Note[], 
+  onEditNote: (note: Note) => void,
+  onDeleteNote: (noteId: string) => void 
+}) {
+
+  const handleDeleteNote = (note: Note) => {
+    deleteNote(note.id)
+    onDeleteNote(note.id)
+  }
+
   if (notes.length === 0) 
     return (
       <div className={styles.emptyState}>
@@ -20,7 +31,7 @@ function NotesDisplay({ notes, onEditNote }: { notes: Note[], onEditNote: (note:
     )
   return (
     <div className={styles.notesList}>
-      {notes.map((note) => (
+      {notes.map((note, index) => (
         <div 
           key={note.id} 
           className={styles.noteCard}
@@ -29,7 +40,7 @@ function NotesDisplay({ notes, onEditNote }: { notes: Note[], onEditNote: (note:
             <h4 className={styles.noteTitle}>{note.title || 'Untitled'}</h4>
           </div>
           <div className={styles.noteActions}>
-            <button className={styles.deleteNoteButton}><img src={deleteIcon} alt="Delete" /></button>
+            <button className={styles.deleteNoteButton} onClick={() => handleDeleteNote(note)}><img src={deleteIcon} alt="Delete" /></button>
           </div>
         </div>
       ))}
@@ -52,6 +63,10 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
         .finally(() => setLoading(false))
     }
   }, [email])
+
+  const handleDeleteNote = (noteId: string) => {
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+  }
   
   return (
     <div className={styles.notesSection}>
@@ -73,7 +88,7 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
           <p className={styles.loadingText}>Loading notes...</p>
         </div>
       ) : (
-        <NotesDisplay notes={notes} onEditNote={onEditNote} />
+        <NotesDisplay notes={notes} onEditNote={onEditNote} onDeleteNote={handleDeleteNote} />
       )}
     </div>
   )
