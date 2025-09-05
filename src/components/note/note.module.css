@@ -175,28 +175,6 @@
   transition: all 0.2s ease;
 }
 
-.statusSaving {
-  color: #fbbf24;
-  background: rgba(251, 191, 36, 0.1);
-  border: 1px solid rgba(251, 191, 36, 0.2);
-}
-
-.statusSaved {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-}
-
-.statusError {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-}
-
-
-
-
-
 /* Focus states and animations */
 .titleInput:focus,
 .contentTextarea:focus {

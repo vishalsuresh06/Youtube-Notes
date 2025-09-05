@@ -57,6 +57,8 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     switch (saveStatus) {
       case 'saving':
         return { text: 'Saving...', className: styles.statusSaving }
+      case 'idle':
+        return { text: 'Saved', className: styles.statusSaved }
       case 'saved':
         return { text: 'Last Saved: ' + new Date().toLocaleString().split(',')[1], className: styles.statusSaved }
       case 'error':
