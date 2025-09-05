@@ -7,13 +7,18 @@ import type { ViewType } from "./types"
 import "./global.module.css"
 
 export default function IndexSidePanel() {
-  const { user, isLoading, onLogin } = useFirebase()
+  const { user, isLoading, lastUserInfo, onLoginCurrentUser, onLoginDifferentAccount } = useFirebase()
   const [currentView, setCurrentView] = useState<ViewType>(VIEW_TYPES.DASHBOARD)
 
   return (
     <ErrorBoundary>
       {!user ? (
-        <LoginPage onLogin={onLogin} isLoading={isLoading} />
+        <LoginPage 
+          onLoginCurrentUser={onLoginCurrentUser}
+          onLoginDifferentAccount={onLoginDifferentAccount}
+          lastUserInfo={lastUserInfo}
+          isLoading={isLoading} 
+        />
       ) : (
         <Dashboard onViewChange={setCurrentView} />
       )}
