@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
 import { UserHeader, GetNotes } from './index'
 import { NewNote, ExistingNote } from '../note'
+import { checkYoutubeUrl } from '../../utils'
 import type { Note } from '../../types'
 import styles from './dashboard.module.css'
 
@@ -15,6 +16,10 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
 
   const handleAddNote = () => {
+    if (!checkYoutubeUrl(window.location.href)) {
+      alert('Please open a YouTube video to add a note')
+      return
+    }
     setCurrentView('new-note')
     onViewChange?.('new-note')
   }
