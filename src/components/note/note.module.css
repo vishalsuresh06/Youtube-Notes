@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 12px 24px 0 24px;
+  padding: 12px 12px 0 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   max-width: 800px;
   margin: 0 auto;
@@ -73,7 +73,7 @@
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
-  padding: 16px 24px 20px 24px;
+  padding: 16px 12px 0 12px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -129,7 +129,7 @@
   margin: 0;
   font-family: inherit;
   resize: none;
-  min-height: 300px;
+  height: calc(100vh - 200px);
   overflow-y: auto;
 }
 
@@ -147,7 +147,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 12px 24px;
+  padding: 12px 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(20, 20, 20, 0.8);
   backdrop-filter: blur(10px);
