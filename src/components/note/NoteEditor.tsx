@@ -13,6 +13,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   const [title, setTitle] = useState(initialNote?.title || '')
   const [noteContent, setNoteContent] = useState(initialNote?.note || '')
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [lastSavedTime, setLastSavedTime] = useState<Date | null>(null)
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
 
   // Create the save function
@@ -29,6 +30,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         setNoteId(savedNoteId)
       }
       setSaveStatus('saved')
+      setLastSavedTime(new Date())
     } catch (error) {
       console.error('Failed to save note:', error)
       setSaveStatus('error')
@@ -58,9 +60,8 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
       case 'saving':
         return { text: 'Saving...', className: styles.statusSaving }
       case 'idle':
-        return { text: 'Saved', className: styles.statusSaved }
       case 'saved':
-        return { text: 'Last Saved: ' + new Date().toLocaleString().split(',')[1], className: styles.statusSaved }
+        return lastSavedTime ? { text: 'Last Saved: ' + lastSavedTime.toLocaleString().split(',')[1], className: styles.statusSaved } : null
       case 'error':
         return { text: 'Save failed', className: styles.statusError }
       default:
