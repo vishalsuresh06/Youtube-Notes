@@ -1,1 +1,3 @@
-export { getAllNotes } from './get-notes'
+export { getAllNotes } from './db_actions/get-notes'
+export { saveNote } from './db_actions/save-note'
+export { deleteNote } from './db_actions/delete-note'

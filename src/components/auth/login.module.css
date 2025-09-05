@@ -313,7 +313,39 @@
   outline-offset: 2px;
 }
 
-/* Loading state */
+/* Loading section styles */
+.loadingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #ef4444;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: block;
+}
+
+.loadingText {
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Disabled button state */
 .loginButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;

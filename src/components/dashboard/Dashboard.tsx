@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../firebase/hook'
-import UserHeader from './UserHeader'
-import GetNotes from './GetNotes'
-import NewNote from '../note/NewNote'
-import ExistingNote from '../note/ExistingNote'
+import { UserHeader, GetNotes } from './index'
+import { NewNote, ExistingNote } from '../note'
 import type { Note } from '../../types'
 import styles from './dashboard.module.css'
 

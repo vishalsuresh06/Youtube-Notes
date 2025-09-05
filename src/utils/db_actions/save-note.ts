@@ -1,7 +1,7 @@
-import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { doc, setDoc, serverTimestamp, getDoc } from "firebase/firestore"
 import { db, auth } from "../firebase/index"
 
-export async function saveNote(title: string, note: string, existingNoteId?: string | null): Promise<string> {
+export async function saveNote(title: string, note: string, existingNoteId?: string | null): Promise<{ noteId: string, savedAt: Date }> {
   if (!auth.currentUser) {
     throw new Error('User must be authenticated to save notes')
   }
@@ -30,5 +30,13 @@ export async function saveNote(title: string, note: string, existingNoteId?: str
 
   await setDoc(doc(db, "notes", noteId), noteData, { merge: true })
   
-  return noteId
+  // Fetch the document to get the actual server timestamp
+  const savedDoc = await getDoc(doc(db, "notes", noteId))
+  const savedData = savedDoc.data()
+  
+  // Return both the note ID and the actual server timestamp
+  return { 
+    noteId, 
+    savedAt: savedData?.updatedAt?.toDate() || new Date()
+  }
 }
