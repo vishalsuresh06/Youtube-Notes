@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from '../../hooks/useDebounce'
-import { saveNote } from '../../utils/save-note'
+import { saveNote } from '../../utils'
 import type { Note } from '../../types'
 import styles from './note.module.css'
 

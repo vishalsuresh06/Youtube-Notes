@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import type { Note } from '../../types'
-import { getAllNotes } from '../../utils'
+import { getAllNotes, deleteNote } from '../../utils'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
-import { deleteNote } from '../../utils/delete-note'
 
 interface GetNotesProps {
   email: string | null
