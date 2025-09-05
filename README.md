@@ -19,22 +19,19 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - **Frontend**: React + TypeScript
 - **Database**: Firebase Firestore
 - **Authentication**: Firebase Auth (Google OAuth)
-- **Styling**: Tailwind CSS + shadcn/ui
-- **State Management**: Zustand
-- **Build Tool**: Plasmo's built-in bundler
 
 ## 📊 Progress Tracker
 
-### Overall Progress: 28% Complete
+### Overall Progress: 56% Complete
 
 | Phase | Status | Progress | Description |
 |-------|--------|----------|-------------|
 | 🏗️ **Setup & Infrastructure** | ✅ Complete | 100% | Project initialization, tech stack decisions |
 | 🔐 **Authentication** | ✅ Complete | 100% | Firebase Auth integration, Google OAuth |
-| 📝 **Core Note-Taking** | 📋 Planned | 0% | Basic CRUD operations for notes |
+| 📝 **Core Note-Taking** | 📋 In Progress | 75% | Basic CRUD operations for notes |
 | 🔗 **YouTube Integration** | 📋 Planned | 0% | Video detection, URL syncing |
-| ☁️ **Cloud Synchronization** | 📋 Planned | 0% | Real-time sync across devices |
-| 🎨 **UI/UX Polish** | 📋 Planned | 0% | Responsive design, user experience |
+| ☁️ **Cloud Synchronization** | 📋 In Progress | 50% | Real-time sync across devices |
+| 🎨 **UI/UX Polish** | 📋 In Progress | 66% | Responsive design, user experience |
 | 🚀 **Testing & Deployment** | 📋 Planned | 0% | QA, Chrome Web Store submission |
 
 ### Feature Completion Status
@@ -53,28 +50,20 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
   - [x] Login/logout UI components
   - [x] Authentication state management
 
-#### 🔄 In Progress Features
-- [ ] Basic project structure (40%)
+- [x] Basic project structure (40%)
   - [x] Folder organization
   - [x] TypeScript configuration
-  - [ ] Core component scaffolding
+  - [x] Core component scaffolding
   - [x] State management setup
 
-#### 📋 Planned Features
+#### 🔄 In Progress Features
 
 **Phase 1: Core Functionality**
-- [ ] Sidepanel React application
-- [ ] Note creation and editing interface
+- [x] Sidepanel React application
+- [x] Note creation and editing interface
 - [ ] YouTube video detection
-- [ ] Firestore database integration
-- [ ] Basic note storage and retrieval
-
-**Phase 2: Advanced Features**
-- [ ] Timestamp linking to video moments
-- [ ] Real-time synchronization
-- [ ] Offline support
-- [ ] Search functionality
-- [ ] Note organization (tags/folders)
+- [x] Firestore database integration
+- [x] Basic note storage and retrieval
 
 **Phase 3: Polish & Optimization**
 - [ ] Rich text editor integration
@@ -83,6 +72,17 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - [ ] Export functionality
 - [ ] Performance optimizations
 
+#### 📋 Planned Features
+
+**Phase 2: Advanced Features**
+- [ ] Timestamp linking to video moments
+- [ ] Real-time synchronization
+- [ ] Offline support
+- [ ] Search functionality
+- [ ] Note organization (tags/folders)
+
+
+
 **Phase 4: Release Preparation**
 - [ ] Comprehensive testing
 - [ ] User documentation
@@ -90,40 +90,13 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - [ ] Privacy policy and terms
 - [ ] Beta testing program
 
-### Development Milestones
-
-#### 🎯 Milestone 1: MVP (Target: 2 weeks)
-- [x] Basic authentication working
-- [ ] Simple note-taking interface
-- [ ] YouTube video detection
-- [ ] Notes saved to Firestore
-
-#### 🎯 Milestone 2: Beta Release (Target: 4 weeks)
-- [ ] Full feature set implemented
-- [ ] Cross-device synchronization
-- [ ] Polished user interface
-- [ ] Basic testing completed
-
-#### 🎯 Milestone 3: Public Release (Target: 6 weeks)
-- [ ] Chrome Web Store submission
-- [ ] Comprehensive documentation
-- [ ] User support system
-- [ ] Analytics implementation
-
-### Next Steps (Current Sprint)
-1. **Complete Firebase Authentication** - Finish login/logout functionality
-2. **Create Basic Sidepanel** - Implement core React components
-3. **YouTube Content Script** - Detect video changes and extract metadata
-4. **Database Schema** - Finalize Firestore data structure
-5. **State Management** - Set up Zustand stores for auth and notes
-
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 16+ and npm
+- Node.js 16+ and pnpm
 - Chrome browser for development
 - Google account for Firebase setup
 
@@ -137,7 +110,7 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 
 2. **Install dependencies**
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Set up Firebase**
@@ -173,28 +146,52 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 ## 📁 Project Structure
 
 ```
-src/
-├── sidepanel/              # Sidepanel React application
-│   ├── index.tsx          # Main sidepanel component
-│   ├── components/        # UI components
-│   └── hooks/             # Custom React hooks
-├── background/            # Service worker scripts
-│   └── index.ts          # Background script entry point
-├── content/              # Content scripts for YouTube integration
-│   └── youtube.ts        # YouTube page integration
-├── components/           # Shared UI components
-│   ├── ui/              # shadcn/ui components
-│   └── common/          # Custom shared components
-├── lib/                 # Utilities and configurations
-│   ├── firebase.ts      # Firebase configuration
-│   ├── utils.ts         # Helper functions
-│   └── types.ts         # TypeScript type definitions
-├── stores/              # Zustand state management
-│   ├── auth.ts          # Authentication state
-│   └── notes.ts         # Notes state management
-└── assets/              # Static assets
-    ├── icon.png         # Extension icon
-    └── styles/          # Global styles
+youtube-notes/
+├── src/
+│   ├── sidepanel.tsx           # Main sidepanel component
+│   ├── background.ts           # Background script entry point
+│   ├── components/             # React components
+│   │   ├── auth/              # Authentication components
+│   │   │   ├── LoginPage.tsx  # Login interface
+│   │   │   ├── login.module.css
+│   │   │   └── index.ts
+│   │   ├── dashboard/         # Dashboard components
+│   │   │   ├── Dashboard.tsx  # Main dashboard
+│   │   │   ├── GetNotes.tsx   # Notes retrieval component
+│   │   │   ├── UserHeader.tsx # User profile header
+│   │   │   ├── dashboard.module.css
+│   │   │   └── index.ts
+│   │   ├── note/             # Note-related components
+│   │   │   ├── ExistingNote.tsx # Edit existing notes
+│   │   │   ├── NewNote.tsx    # Create new notes
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   ├── firebase/             # Firebase integration
+│   │   ├── index.ts          # Firebase configuration
+│   │   ├── hook.ts           # Firebase hooks
+│   │   └── use-firestore-doc.ts # Firestore document hook
+│   ├── hooks/                # Custom React hooks
+│   │   └── useDebounce.ts    # Debounce utility hook
+│   ├── types/                # TypeScript type definitions
+│   │   ├── index.ts          # Main type exports
+│   │   ├── Note.ts           # Note type definitions
+│   │   └── svg.d.ts          # SVG module declarations
+│   ├── utils/                # Utility functions
+│   │   ├── delete-note.ts    # Note deletion utility
+│   │   ├── get-notes.ts      # Notes retrieval utility
+│   │   ├── save-note.ts      # Note saving utility
+│   │   └── index.ts
+│   └── global.module.css     # Global styles
+├── assets/                   # Static assets
+│   ├── delete.svg           # Delete icon
+│   ├── edit.svg             # Edit icon
+│   └── icon.png             # Extension icon
+├── build/                   # Build output
+│   ├── chrome-mv3-dev/      # Development build
+│   └── chrome-mv3-prod/     # Production build
+├── package.json             # Dependencies and scripts
+├── tsconfig.json            # TypeScript configuration
+└── README.md               # Project documentation
 ```
 
 ## 🎯 Usage
@@ -269,37 +266,6 @@ The extension requires these permissions:
 - Check your internet connection
 - Verify Firestore security rules are correctly configured
 - Check browser console for any error messages
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Plasmo](https://plasmo.com/) for the excellent Chrome extension framework
-- [Firebase](https://firebase.google.com/) for backend services
-- [shadcn/ui](https://ui.shadcn.com/) for beautiful UI components
-- [Lucide](https://lucide.dev/) for icons
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/yourusername/youtube-notes-extension/issues) page
-2. Create a new issue with detailed information
-3. Join our [Discord community](https://discord.gg/your-invite-link) for discussions
 
 ## 🗺️ Long-term Roadmap
 
