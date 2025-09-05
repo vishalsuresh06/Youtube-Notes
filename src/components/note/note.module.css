@@ -1,0 +1,300 @@
+/* Note Editor Styles - Notion-inspired minimalistic design */
+
+.container {
+  min-height: 100vh;
+  background: #111111;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header with back button */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.backButton {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.backButton:hover {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.5);
+  color: #f1f5f9;
+}
+
+.backButton:focus {
+  outline: 2px solid #ef4444;
+  outline-offset: 2px;
+}
+
+/* Main editor area */
+.editor {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Title input - Notion style */
+.titleContainer {
+  position: relative;
+}
+
+.titleInput {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 32px;
+  font-weight: 700;
+  color: #f1f5f9;
+  line-height: 1.2;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  resize: none;
+  overflow: hidden;
+  min-height: 48px;
+}
+
+.titleInput::placeholder {
+  color: #64748b;
+  font-weight: 400;
+}
+
+.titleInput:focus {
+  color: #f1f5f9;
+}
+
+/* Content textarea - Notion style */
+.contentContainer {
+  position: relative;
+  flex: 1;
+}
+
+.contentTextarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 400;
+  color: #e2e8f0;
+  line-height: 1.6;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  resize: none;
+  min-height: 400px;
+  overflow-y: auto;
+}
+
+.contentTextarea::placeholder {
+  color: #64748b;
+  font-style: italic;
+}
+
+.contentTextarea:focus {
+  color: #e2e8f0;
+}
+
+/* Status and actions footer */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 20, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.statusContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statusMessage {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.statusSaving {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.statusSaved {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.statusError {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.saveButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.saveButton:focus {
+  outline: 2px solid #ef4444;
+  outline-offset: 2px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .editor {
+    padding: 24px 16px;
+    gap: 20px;
+  }
+  
+  .titleInput {
+    font-size: 24px;
+    min-height: 36px;
+  }
+  
+  .contentTextarea {
+    font-size: 15px;
+    min-height: 300px;
+  }
+  
+  .footer {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .statusContainer {
+    justify-content: center;
+  }
+  
+  .saveButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    padding: 12px 16px;
+  }
+  
+  .editor {
+    padding: 20px 12px;
+  }
+  
+  .titleInput {
+    font-size: 20px;
+  }
+  
+  .contentTextarea {
+    font-size: 14px;
+  }
+}
+
+/* Focus states and animations */
+.titleInput:focus,
+.contentTextarea:focus {
+  outline: none;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Custom scrollbar for textarea */
+.contentTextarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contentTextarea::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.contentTextarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.contentTextarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animation for page load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  animation: fadeInUp 0.4s ease-out;
+}

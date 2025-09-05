@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from '../../hooks/useDebounce'
 import { saveNote } from '../../utils/save-note'
 import type { Note } from '../../types'
+import styles from './note.module.css'
 
 interface ExistingNoteProps {
   note: Note
@@ -56,11 +57,11 @@ const ExistingNote = ({ note, onBack }: ExistingNoteProps) => {
   const getStatusMessage = () => {
     switch (saveStatus) {
       case 'saving':
-        return { text: 'Saving...', className: 'status-saving' }
+        return { text: 'Saving...', className: styles.statusSaving }
       case 'saved':
-        return { text: 'Saved!', className: 'status-saved' }
+        return { text: 'Saved!', className: styles.statusSaved }
       case 'error':
-        return { text: 'Save failed', className: 'status-error' }
+        return { text: 'Save failed', className: styles.statusError }
       default:
         return null
     }
@@ -69,17 +70,18 @@ const ExistingNote = ({ note, onBack }: ExistingNoteProps) => {
   const statusMessage = getStatusMessage()
 
   return (
-    <div>
-      <div>
-        <button onClick={onBack}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <button className={styles.backButton} onClick={onBack}>
           ← Back
         </button>
       </div>
 
-      <div>
-        <div>
+      <div className={styles.editor}>
+        <div className={styles.titleContainer}>
           <input 
             type="text" 
+            className={styles.titleInput}
             placeholder="Untitled" 
             value={title} 
             onChange={(e) => setTitle(e.target.value)}
@@ -87,8 +89,9 @@ const ExistingNote = ({ note, onBack }: ExistingNoteProps) => {
           />
         </div>
 
-        <div>
+        <div className={styles.contentContainer}>
           <textarea 
+            className={styles.contentTextarea}
             placeholder="Start writing..." 
             value={noteContent} 
             onChange={(e) => setNoteContent(e.target.value)}
@@ -96,13 +99,16 @@ const ExistingNote = ({ note, onBack }: ExistingNoteProps) => {
         </div>
       </div>
 
-      <div>
-        {statusMessage && (
-          <div className={statusMessage.className}>
-            {statusMessage.text}
-          </div>
-        )}
+      <div className={styles.footer}>
+        <div className={styles.statusContainer}>
+          {statusMessage && (
+            <div className={statusMessage.className}>
+              {statusMessage.text}
+            </div>
+          )}
+        </div>
         <button 
+          className={styles.saveButton}
           onClick={handleManualSave} 
           disabled={isSaving}
         >
