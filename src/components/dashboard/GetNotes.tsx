@@ -9,13 +9,12 @@ interface GetNotesProps {
   onAddNote: () => void
   onEditNote: (note: Note) => void
 }
-
-function NotesDisplay({ notes, onEditNote, onDeleteNote }: { 
+function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: { 
   notes: Note[], 
+  usedSearch: boolean,
   onEditNote: (note: Note) => void,
   onDeleteNote: (noteId: string) => void 
 }) {
-
   const handleDeleteNote = (note: Note) => {
     deleteNote(note.id)
     onDeleteNote(note.id)
@@ -25,7 +24,9 @@ function NotesDisplay({ notes, onEditNote, onDeleteNote }: {
     return (
       <div className={styles.emptyState}>
         <h3 className={styles.emptyStateTitle}>No notes found</h3>
-        <p className={styles.emptyStateText}>Start by creating your first note!</p>
+        <p className={styles.emptyStateText}>
+          {usedSearch ? 'Try a different search!' : 'Start by creating your first note!'}
+        </p>
       </div>
     )
   return (
@@ -50,6 +51,16 @@ function NotesDisplay({ notes, onEditNote, onDeleteNote }: {
 const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(false)
+  const [userSearch, setUserSearch] = useState('')
+  const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
+
+  useEffect(() => {
+    if (userSearch.trim() !== '') {
+      setFilteredNotes(notes.filter(note => note.title.toLowerCase().trim().includes(userSearch.toLowerCase().trim())))
+    } else {
+      setFilteredNotes(notes)
+    }
+  }, [userSearch, notes])
 
   useEffect(() => {
     if (email) {
@@ -65,6 +76,7 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
 
   const handleDeleteNote = (noteId: string) => {
     setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+    setFilteredNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
   }
   
   return (
@@ -80,6 +92,8 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
           type="text" 
           placeholder="Search notes..." 
           className={styles.searchInput}
+          value={userSearch}
+          onChange={(e) => setUserSearch(e.target.value)}
         />
       </div>
       {loading ? (
@@ -87,7 +101,7 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
           <p className={styles.loadingText}>Loading notes...</p>
         </div>
       ) : (
-        <NotesDisplay notes={notes} onEditNote={onEditNote} onDeleteNote={handleDeleteNote} />
+        <NotesDisplay notes={filteredNotes} usedSearch={userSearch.trim() !== ''} onEditNote={onEditNote} onDeleteNote={handleDeleteNote} />
       )}
     </div>
   )
