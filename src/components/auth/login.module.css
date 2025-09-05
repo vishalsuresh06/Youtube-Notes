@@ -19,7 +19,7 @@
   left: 30%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(191, 219, 254, 0.7) 0%, rgba(147, 197, 253, 0.4) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(254, 202, 202, 0.7) 0%, rgba(252, 165, 165, 0.4) 40%, transparent 70%);
   border-radius: 50%;
   filter: blur(60px);
   animation: blobMove1 14s ease-in-out infinite;
@@ -33,7 +33,7 @@
   left: 60%;
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(147, 197, 253, 0.8) 0%, rgba(96, 165, 250, 0.4) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(252, 165, 165, 0.8) 0%, rgba(248, 113, 113, 0.4) 40%, transparent 70%);
   border-radius: 50%;
   filter: blur(60px);
   animation: blobMove2 16s ease-in-out infinite;
@@ -51,31 +51,31 @@
 
 .container::before {
   box-shadow: 
-    /* Blob 3 - Medium Blue */
-    800px 200px 0 0 rgba(147, 197, 253, 0.6),
-    800px 200px 50px 0 rgba(147, 197, 253, 0.2),
-    /* Blob 4 - Sky Blue */
-    200px 600px 0 0 rgba(96, 165, 250, 0.7),
-    200px 600px 50px 0 rgba(96, 165, 250, 0.3),
-    /* Blob 5 - Blue */
-    900px 700px 0 0 rgba(59, 130, 246, 0.6),
-    900px 700px 50px 0 rgba(59, 130, 246, 0.3),
-    /* Blob 6 - Darker Blue */
-    100px 300px 0 0 rgba(37, 99, 235, 0.7),
-    100px 300px 50px 0 rgba(37, 99, 235, 0.3),
-    /* Blob 7 - Deep Blue */
-    700px 500px 0 0 rgba(29, 78, 216, 0.6),
-    700px 500px 50px 0 rgba(29, 78, 216, 0.3);
+    /* Blob 3 - Medium Red */
+    800px 200px 0 0 rgba(252, 165, 165, 0.6),
+    800px 200px 50px 0 rgba(252, 165, 165, 0.2),
+    /* Blob 4 - Light Red */
+    200px 600px 0 0 rgba(248, 113, 113, 0.7),
+    200px 600px 50px 0 rgba(248, 113, 113, 0.3),
+    /* Blob 5 - Red */
+    900px 700px 0 0 rgba(239, 68, 68, 0.6),
+    900px 700px 50px 0 rgba(239, 68, 68, 0.3),
+    /* Blob 6 - Darker Red */
+    100px 300px 0 0 rgba(220, 38, 38, 0.7),
+    100px 300px 50px 0 rgba(220, 38, 38, 0.3),
+    /* Blob 7 - Deep Red */
+    700px 500px 0 0 rgba(185, 28, 28, 0.6),
+    700px 500px 50px 0 rgba(185, 28, 28, 0.3);
   animation: blobMove1 14s ease-in-out infinite, blobMove3 12s ease-in-out infinite, blobMove4 14s ease-in-out infinite, blobMove5 18s ease-in-out infinite, blobMove6 15s ease-in-out infinite, blobMove7 13s ease-in-out infinite;
 }
 
 .container::after {
   box-shadow: 
     /* Additional blobs for more coverage */
-    600px 100px 0 0 rgba(37, 99, 235, 0.6),
-    600px 100px 50px 0 rgba(37, 99, 235, 0.3),
-    400px 800px 0 0 rgba(29, 78, 216, 0.7),
-    400px 800px 50px 0 rgba(29, 78, 216, 0.3);
+    600px 100px 0 0 rgba(220, 38, 38, 0.6),
+    600px 100px 50px 0 rgba(220, 38, 38, 0.3),
+    400px 800px 0 0 rgba(185, 28, 28, 0.7),
+    400px 800px 50px 0 rgba(185, 28, 28, 0.3);
   animation: blobMove2 16s ease-in-out infinite, blobMove8 17s ease-in-out infinite, blobMove9 19s ease-in-out infinite;
 }
 
@@ -227,7 +227,7 @@
 
 
 .loginButton {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -240,7 +240,7 @@
   margin-top: 24px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.01em;
@@ -248,9 +248,9 @@
 }
 
 .loginButton:hover {
-  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
 }
 
 .loginButton:active {
@@ -309,7 +309,7 @@
 
 /* Focus states for accessibility */
 .loginButton:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #ef4444;
   outline-offset: 2px;
 }
 
