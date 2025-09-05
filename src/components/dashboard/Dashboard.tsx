@@ -9,7 +9,7 @@ import type { DashboardProps, Note, ViewType } from '../../types'
 import styles from './dashboard.module.css'
 
 const Dashboard = ({ onViewChange }: DashboardProps) => {
-  const { user, onLogout } = useFirebase()
+  const { user, onLogout, onSwitchAccount } = useFirebase()
   const { isValidYouTube, checkUrl } = useYouTubeValidation()
   const [currentView, setCurrentView] = useState<ViewType>(VIEW_TYPES.DASHBOARD)
   const [selectedNote, setSelectedNote] = useState<Note | null>(null)
@@ -53,6 +53,7 @@ const Dashboard = ({ onViewChange }: DashboardProps) => {
               displayName={user?.displayName}
               email={user?.email}
               onLogout={onLogout}
+              onSwitchAccount={onSwitchAccount}
             />
             <hr className={styles.divider} />
           </>
