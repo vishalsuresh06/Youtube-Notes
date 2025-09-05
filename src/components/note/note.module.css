@@ -13,29 +13,53 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
+  justify-content: flex-start;
+  padding: 12px 24px 0 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .backButton {
-  background: transparent;
-  color: #94a3b8;
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
+  border-radius: 8px;
   transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  margin: 0 0 12px 0;
+  right: 12px;
+}
+
+.backButton::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid #94a3b8;
+  border-bottom: 2px solid #94a3b8;
+  transform: rotate(45deg);
+  transition: all 0.2s ease;
 }
 
 .backButton:hover {
   background: rgba(148, 163, 184, 0.1);
-  border-color: rgba(148, 163, 184, 0.5);
-  color: #f1f5f9;
+  border-color: rgba(148, 163, 184, 0.2);
+  transform: translateX(-2px);
+}
+
+.backButton:hover::before {
+  border-color: #f1f5f9;
+}
+
+.backButton:active {
+  transform: translateX(-1px);
+  background: rgba(148, 163, 184, 0.15);
 }
 
 .backButton:focus {
@@ -49,10 +73,10 @@
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
-  padding: 40px 24px;
+  padding: 16px 24px 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* Title input - Notion style */
@@ -65,16 +89,16 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 32px;
+  font-size: 42px;
   font-weight: 700;
   color: #f1f5f9;
-  line-height: 1.2;
+  line-height: 1.1;
   padding: 0;
   margin: 0;
   font-family: inherit;
   resize: none;
   overflow: hidden;
-  min-height: 48px;
+  min-height: 40px;
 }
 
 .titleInput::placeholder {
@@ -100,12 +124,12 @@
   font-size: 16px;
   font-weight: 400;
   color: #e2e8f0;
-  line-height: 1.6;
+  line-height: 1.5;
   padding: 0;
   margin: 0;
   font-family: inherit;
   resize: none;
-  min-height: 400px;
+  min-height: 300px;
   overflow-y: auto;
 }
 
@@ -118,18 +142,19 @@
   color: #e2e8f0;
 }
 
-/* Status and actions footer */
+/* Status footer */
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 16px 24px;
+  padding: 12px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(20, 20, 20, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  gap: 16px;
-  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .statusContainer {
@@ -164,94 +189,9 @@
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
-.saveButton {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 
-.saveButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-}
 
-.saveButton:active:not(:disabled) {
-  transform: translateY(0);
-}
 
-.saveButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.saveButton:focus {
-  outline: 2px solid #ef4444;
-  outline-offset: 2px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .editor {
-    padding: 24px 16px;
-    gap: 20px;
-  }
-  
-  .titleInput {
-    font-size: 24px;
-    min-height: 36px;
-  }
-  
-  .contentTextarea {
-    font-size: 15px;
-    min-height: 300px;
-  }
-  
-  .footer {
-    padding: 12px 16px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  
-  .statusContainer {
-    justify-content: center;
-  }
-  
-  .saveButton {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 400px) {
-  .header {
-    padding: 12px 16px;
-  }
-  
-  .editor {
-    padding: 20px 12px;
-  }
-  
-  .titleInput {
-    font-size: 20px;
-  }
-  
-  .contentTextarea {
-    font-size: 14px;
-  }
-}
 
 /* Focus states and animations */
 .titleInput:focus,
