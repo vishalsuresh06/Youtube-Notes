@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import type { Note } from '../../types'
-import { getAllNotes, deleteNote } from '../../utils'
+import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 import styles from './dashboard.module.css'
 import deleteIcon from '../../../assets/delete.svg'
 
@@ -13,11 +13,10 @@ function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: {
   notes: Note[], 
   usedSearch: boolean,
   onEditNote: (note: Note) => void,
-  onDeleteNote: (noteId: string) => void 
+  onDeleteNote: (noteId: string) => Promise<void>
 }) {
-  const handleDeleteNote = (note: Note) => {
-    deleteNote(note.id)
-    onDeleteNote(note.id)
+  const handleDeleteNote = async (note: Note) => {
+    await onDeleteNote(note.id)
   }
 
   if (notes.length === 0) 
@@ -49,8 +48,7 @@ function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: {
 }
 
 const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
-  const [notes, setNotes] = useState<Note[]>([])
-  const [loading, setLoading] = useState(false)
+  const { data: notes, deleteData, isReady } = useFirestoreCollection<Note>("notes")
   const [userSearch, setUserSearch] = useState('')
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([])
 
@@ -62,21 +60,10 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
     }
   }, [userSearch, notes])
 
-  useEffect(() => {
-    if (email) {
-      setLoading(true)
-      getAllNotes(email)
-        .then(setNotes)
-        .catch((error) => {
-          console.error('Failed to fetch notes:', error)
-        })
-        .finally(() => setLoading(false))
+  const handleDeleteNote = async (noteId: string) => {
+    if (deleteData) {
+      await deleteData(noteId)
     }
-  }, [email])
-
-  const handleDeleteNote = (noteId: string) => {
-    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
-    setFilteredNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
   }
   
   return (
@@ -96,7 +83,7 @@ const GetNotes = ({ email, onAddNote, onEditNote }: GetNotesProps) => {
           onChange={(e) => setUserSearch(e.target.value)}
         />
       </div>
-      {loading ? (
+      {!isReady ? (
         <div className={styles.loadingContainer}>
           <p className={styles.loadingText}>Loading notes...</p>
         </div>

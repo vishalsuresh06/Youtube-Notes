@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from '../../hooks/useDebounce'
-import { saveNote, checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
+import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
+import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
 import styles from './note.module.css'
 
@@ -10,6 +11,7 @@ interface NoteEditorProps {
 }
 
 const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
+  const { createData, saveData } = useFirestoreCollection<Note>("notes")
   const [title, setTitle] = useState(initialNote?.title || '')
   const [noteContent, setNoteContent] = useState(initialNote?.note || '')
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
@@ -38,17 +40,31 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     setSaveStatus('saving')
     
     try {
-      const { noteId: savedNoteId, savedAt } = await saveNote(title, noteContent, noteId)
-      if (savedNoteId && !noteId) {
-        setNoteId(savedNoteId)
+      const currentUrl = await getCurrentTabUrl()
+      const noteData = {
+        title: title.trim(),
+        note: noteContent.trim(),
+        url: currentUrl || ''
+      } as Note
+
+      if (noteId) {
+        // Update existing note
+        await saveData?.(noteId, noteData)
+      } else {
+        // Create new note
+        const docRef = await createData?.(noteData)
+        if (docRef?.id) {
+          setNoteId(docRef.id)
+        }
       }
+      
       setSaveStatus('saved')
-      setLastSavedTime(savedAt)
+      setLastSavedTime(new Date())
     } catch (error) {
       console.error('Failed to save note:', error)
       setSaveStatus('error')
     }
-  }, [title, noteContent, noteId])
+  }, [title, noteContent, noteId, createData, saveData, initialNote])
 
   // Create the debounced version
   const debouncedSave = useDebounce(performSave, 2000) // 2s delay
