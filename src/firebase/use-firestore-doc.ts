@@ -1,11 +1,11 @@
 import {
   doc,
-  DocumentData,
   DocumentSnapshot,
   getDoc,
   onSnapshot,
   setDoc
 } from "firebase/firestore"
+import type { DocumentData } from "firebase/firestore"
 import { useCallback, useEffect, useMemo, useState } from "react"
 
 import { useFirebase } from "./hook"
