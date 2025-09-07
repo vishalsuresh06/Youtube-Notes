@@ -356,3 +356,65 @@
   transform: none;
   box-shadow: none;
 }
+
+/* Account switching styles */
+.accountOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.accountOptions .loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0;
+}
+
+.profileImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.switchAccountButton {
+  background: transparent;
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  font-family: inherit;
+  backdrop-filter: blur(10px);
+}
+
+.switchAccountButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.switchAccountButton:active {
+  transform: translateY(0);
+}
+
+.switchAccountButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.switchAccountButton:disabled:hover {
+  transform: none;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.3);
+}

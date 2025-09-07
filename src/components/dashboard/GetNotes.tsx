@@ -35,7 +35,7 @@ function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: {
           key={note.id} 
           className={styles.noteCard}
         >
-          <div onClick={() => onEditNote(note)} style={{ cursor: 'pointer', flex: 1 }}>
+          <div onClick={() => onEditNote(note)} className={styles.noteCardContent}>
             <h4 className={styles.noteTitle}>{note.title || 'Untitled'}</h4>
           </div>
           <div className={styles.noteActions}>
