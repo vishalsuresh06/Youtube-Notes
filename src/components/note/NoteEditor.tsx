@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useDebounce } from '../../hooks/useDebounce'
-import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
-import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
+import React, { useState } from 'react'
+import { useNoteEditor } from '../../hooks/useNoteEditor'
+import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts'
+import { getStatusMessage, openYoutubeLink } from '../../utils/noteHelpers'
 import InfoPopup from './info-popup/InfoPopup'
 import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
 import infoIcon from '../../../assets/info.svg'
 import styles from './note.module.css'
-import { get } from 'http'
 
 interface NoteEditorProps {
   initialNote?: Note
@@ -15,151 +14,44 @@ interface NoteEditorProps {
 }
 
 const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
-  const { createData, saveData } = useFirestoreCollection<Note>("notes")
-  const [title, setTitle] = useState(initialNote?.title || '')
-  const [noteContent, setNoteContent] = useState(initialNote?.note || '')
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  // Custom hooks for note editing logic
+  const {
+    title,
+    noteContent,
+    saveStatus,
+    lastSavedTime,
+    setTitle,
+    setNoteContent,
+    performSave
+  } = useNoteEditor(initialNote)
+
+  // Local UI state
   const [isInfoOpen, setIsInfoOpen] = useState(false)
-  const [lastSavedTime, setLastSavedTime] = useState<Date | null>(
-    initialNote?.updatedAt ? 
-      (initialNote.updatedAt instanceof Date ? initialNote.updatedAt : (initialNote.updatedAt as any).toDate()) 
-      : null
-  )
-  const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
 
-  // Create the save function
-  const performSave = useCallback(async () => {
-    if (!title.trim() && !noteContent.trim()) {
-      return // Don't save empty notes
-    }
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    onSave: performSave,
+    onBack,
+    onYoutube: () => initialNote?.url && openYoutubeLink(initialNote.url),
+    onTimestamp: () => console.log('Timestamp shortcut'),
+    onBold: () => console.log('Bold shortcut'),
+    onItalic: () => console.log('Italic shortcut')
+  })
 
-    setSaveStatus('saving')
-    
-    try {
-      if (noteId) {
-        // Update existing note - only update title and content, preserve original URL
-        const noteData = {
-          title: title.trim(),
-          note: noteContent.trim()
-        } as Partial<Note>
-        
-        await saveData?.(noteId, noteData as Note)
-      } else {
-        // Create new note - check if we're on YouTube and set URL only once
-        const currentUrl = await getCurrentTabUrl()
-        if (!currentUrl || !checkYoutubeUrl(currentUrl)) {
-          setSaveStatus('error')
-          return
-        }
-        
-        const noteData = {
-          title: title.trim(),
-          note: noteContent.trim(),
-          url: currentUrl
-        } as Note
-        
-        const docRef = await createData?.(noteData)
-        if (docRef?.id) {
-          setNoteId(docRef.id)
-        }
-      }
-      
-      setSaveStatus('saved')
-      setLastSavedTime(new Date())
-    } catch (error) {
-      console.error('Failed to save note:', error)
-      setSaveStatus('error')
-    }
-  }, [title, noteContent, noteId, createData, saveData])
-
-  // Create the debounced version
-  const debouncedSave = useDebounce(performSave, 2000) // 2s delay
-
-  // Keyboard shortcut listener
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Check for specific shortcuts only
-      if (event.metaKey) {
-        const key = event.key.toLowerCase()
-        
-        // Define the shortcuts we want to capture
-        const shortcuts = ['arrowdown', 's', 'b', 'i', 'y', 'arrowleft']
-        
-        if (shortcuts.includes(key)) {
-          event.preventDefault() // Prevent default browser action
-          
-          switch (key) {
-            case 'arrowleft': onBack(); break
-            case 's': performSave(); break
-          }
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [performSave, onBack])
-
-  // Auto-save when title or note changes
-  useEffect(() => {
-    if (initialNote) {
-      // For existing notes, only save if content has changed
-      if (title !== initialNote.title || noteContent !== initialNote.note) {
-        debouncedSave()
-      }
-    } else {
-      // For new notes, save if there's any content
-      if (title || noteContent) {
-        debouncedSave()
-      }
-    }
-  }, [title, noteContent, debouncedSave, initialNote])
-
-  const formatTime = (date: Date | any) => {
-    // Ensure we have a proper Date object
-    const dateObj = date instanceof Date ? date : new Date(date)
-    return dateObj.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    })
-  }
-
-  const getStatusMessage = () => {
-    switch (saveStatus) {
-      case 'saving':
-        return { text: 'Saving...', className: styles.statusSaving }
-      case 'idle':
-      case 'saved':
-        return lastSavedTime ? { text: 'Last Saved: ' + formatTime(lastSavedTime), className: styles.statusSaved } : null
-      case 'error':
-        return { text: 'Save failed', className: styles.statusError }
-      default:
-        return null
-    }
-  }
-
-  const openYoutubeLink = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  }
-  
-  const statusMessage = getStatusMessage()
-
+  // Event handlers
   const handleInfoClick = () => {
     setIsInfoOpen(!isInfoOpen)
-
   }
+
+  // Computed values
+  const statusMessage = getStatusMessage(saveStatus, lastSavedTime, styles)
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <button className={styles.backButton} onClick={onBack} aria-label="Go back"></button>
         <div className={styles.headerSpacer}></div>
-        <button className={styles.youtubeButton} onClick={() => openYoutubeLink(initialNote.url)}>
+        <button className={styles.youtubeButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
           <img src={YoutubeIcon} alt="YouTube" className={styles.youtubeIcon} />
         </button>
       </div>
