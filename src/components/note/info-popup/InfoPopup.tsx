@@ -20,7 +20,7 @@ const InfoPopup = ({ open, onClose }: InfoPopupProps) => {
                     <DialogTitle className={styles.dialogTitle}>Shortcuts</DialogTitle>
                     <div className={styles.shortcutList}>
                         <div className={styles.shortcutItem}>
-                            <span className={styles.shortcutKey}>⌘T</span>
+                            <span className={styles.shortcutKey}>⌘↓</span>
                             <div className={styles.shortcutContent}>
                                 <span className={styles.shortcutName}>Timestamp</span>
                                 <span className={styles.shortcutDescription}>Insert current video time</span>

@@ -26,6 +26,34 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   )
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
 
+  // Keyboard shortcut listener
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check for specific shortcuts only
+      if (event.metaKey) {
+        const key = event.key.toLowerCase()
+        
+        // Define the shortcuts we want to capture
+        const shortcuts = ['arrowdown', 's', 'b', 'i', 'y', 'arrowleft']
+        
+        if (shortcuts.includes(key)) {
+          event.preventDefault() // Prevent default browser action
+          
+          console.log('Shortcut detected:', {
+            key: event.key,
+            combination: `⌘${key === 'arrowdown' ? '↓' : key === 'arrowleft' ? '←' : event.key.toUpperCase()}`
+          })
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   // Create the save function
   const performSave = useCallback(async () => {
     if (!title.trim() && !noteContent.trim()) {
