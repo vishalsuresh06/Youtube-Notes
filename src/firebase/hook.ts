@@ -11,35 +11,15 @@ import { useEffect, useMemo, useState } from "react"
 
 import { app, auth } from "./index"
 
-const LAST_USER_KEY = 'youtube-notes-last-user'
-
-const saveLastUser = (user: User) => {
-  if (user) {
-    const userData = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL
-    }
-    localStorage.setItem(LAST_USER_KEY, JSON.stringify(userData))
-  }
-}
-
-const getLastUser = () => {
-  try {
-    const userData = localStorage.getItem(LAST_USER_KEY)
-    return userData ? JSON.parse(userData) : null
-  } catch {
-    return null
-  }
-}
-
 setPersistence(auth, browserLocalPersistence)
+
+// OAuth configuration
+const oauthClientId = process.env.PLASMO_PUBLIC_FIREBASE_CLIENT_ID // Replace with your actual client ID
+const oauthClientScopes = ["openid", "email", "profile"]
 
 export const useFirebase = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState<User>(null)
-  const [lastUser, setLastUser] = useState(getLastUser())
 
   const firestore = useMemo(() => (user ? getFirestore(app) : null), [user])
 
@@ -50,57 +30,68 @@ export const useFirebase = () => {
     }
   }
 
-  const onLogin = (forceNewAccount = false) => {
-    setIsLoading(true)
-    chrome.identity.getAuthToken({ 
-      interactive: true,
-      account: forceNewAccount ? undefined : lastUser?.email 
-    }, async function (token) {
-      if (chrome.runtime.lastError || !token) {
-        console.error(chrome.runtime.lastError.message)
-        setIsLoading(false)
-        return
-      }
-      if (token) {
-        const credential = GoogleAuthProvider.credential(null, token)
-        try {
-          await signInWithCredential(auth, credential)
-        } catch (e) {
-          console.error("Could not log in. ", e)
-        }
-      }
-    })
+const onLogin = async () => {
+  setIsLoading(true)
+  
+  try {
+    const credential = await getGoogleAuthCredential()
+    await signInWithCredential(auth, credential)
+  } catch (error) {
+    console.error("Could not log in:", error)
+    setIsLoading(false)
   }
+}
 
-  const onLoginWithDifferentAccount = () => {
-    chrome.identity.clearAllCachedAuthTokens(() => {
-      onLogin(true)
-    })
-  }
+const getGoogleAuthCredential = () => {
+  return new Promise<ReturnType<typeof GoogleAuthProvider.credential>>(
+    (resolve, reject) => {
+      const redirectUri = `https://${chrome.runtime.id}.chromiumapp.org/`;
+      const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${oauthClientId}&response_type=token&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&scope=${encodeURIComponent(oauthClientScopes.join(" "))}`;
+
+      chrome.identity.launchWebAuthFlow(
+        { url: authUrl, interactive: true },
+        (responseUrl) => {
+          if (chrome.runtime.lastError) {
+            reject(chrome.runtime.lastError);
+            return;
+          }
+          if (!responseUrl) {
+            reject("No response URL returned");
+            return;
+          }
+          const params = new URLSearchParams(
+            new URL(responseUrl).hash.slice(1)
+          );
+          const token = params.get("access_token");
+
+          if (!token) {
+            reject("No token found in the response");
+            return;
+          }
+
+          const credential = GoogleAuthProvider.credential(null, token);
+          resolve(credential);
+        }
+      );
+    }
+  );
+}
+
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setIsLoading(false)
       setUser(user)
-      if (user) {
-        saveLastUser(user)
-        setLastUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL
-        })
-      }
     })
   }, [])
 
   return {
     isLoading,
     user,
-    lastUser,
     firestore,
     onLogin,
-    onLoginWithDifferentAccount,
     onLogout
   }
 }
