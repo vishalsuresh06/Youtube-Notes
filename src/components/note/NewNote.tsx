@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import NoteEditor from './NoteEditor'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import { YTWarningPopup } from './index'
+import styles from './note.module.css'
 
 interface NewNoteProps {
     onBack: () => void
@@ -24,17 +25,9 @@ const NewNote = ({ onBack }: NewNoteProps) => {
 
   if (isLoading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        height: '100vh',
-        background: '#111111',
-        color: '#e2e8f0',
-        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif'
-      }}>
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <p style={{ fontSize: '16px', color: '#94a3b8' }}>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingContent}>
+          <p className={styles.loadingText}>
             Checking URL...
           </p>
         </div>
@@ -45,35 +38,17 @@ const NewNote = ({ onBack }: NewNoteProps) => {
   if (showWarning) {
     return (
       <>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          height: '100vh',
-          background: '#111111',
-          color: '#e2e8f0',
-          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif'
-        }}>
-          <div style={{ textAlign: 'center', padding: '20px' }}>
-            <h2 style={{ marginBottom: '16px', fontSize: '24px', fontWeight: '600' }}>
+        <div className={styles.warningContainer}>
+          <div className={styles.warningContent}>
+            <h2 className={styles.warningTitle}>
               Not a YouTube video
             </h2>
-            <p style={{ marginBottom: '24px', fontSize: '16px', color: '#94a3b8' }}>
+            <p className={styles.warningMessage}>
               You can only create new notes on YouTube videos
             </p>
             <button 
               onClick={onBack}
-              style={{
-                background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                padding: '12px 24px',
-                fontSize: '16px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
+              className={styles.warningButton}
             >
               Go Back
             </button>
