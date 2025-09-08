@@ -29,17 +29,13 @@ export const useNoteEditor = (initialNote?: Note) => {
   // Unique identifier for the note in Firestore
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
   
-  // Text formatting state (currently unused but available for rich text features)
-  const [boldActive, setBoldActive] = useState(false)
-  const [italicActive, setItalicActive] = useState(false)
 
   /**
    * Performs the actual save operation to Firestore
    * Handles both creating new notes and updating existing ones
    */
   const performSave = useCallback(async () => {
-    // Skip saving if both title and content are empty
-    if (!title.trim() && !noteContent.trim()) {
+    if (!title.trim()) {
       return
     }
 
