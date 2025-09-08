@@ -1,0 +1,141 @@
+/* Info popup modal - following established design patterns */
+
+/* Modal overlay */
+.dialogContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.dialogPanelContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+/* Modal panel */
+.dialogPanel {
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal title */
+.dialogTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0 0 20px 0;
+  text-align: left;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Minimalist shortcut list */
+.shortcutList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0 0 28px 0;
+}
+
+.shortcutItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.shortcutItem:last-child {
+  border-bottom: none;
+}
+
+.shortcutKey {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.shortcutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.shortcutName {
+  font-size: 15px;
+  font-weight: 500;
+  color: #f1f5f9;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.shortcutDescription {
+  font-size: 12px;
+  font-weight: 400;
+  color: #64748b;
+  line-height: 1.3;
+  width: 100%;
+}
+
+/* Close button - using established primary button pattern */
+.closeButton {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  width: 100%;
+}
+
+.closeButton:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.closeButton:active {
+  transform: translateY(0);
+}
+
+.closeButton:focus {
+  outline: 2px solid #ef4444;
+  outline-offset: 2px;
+}
+
+
+/* Simple fade-in animation */
+.dialogPanel {
+  animation: fadeInUp 0.4s ease-out;
+}
