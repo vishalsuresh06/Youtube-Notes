@@ -40,18 +40,23 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     setSaveStatus('saving')
     
     try {
-      const currentUrl = await getCurrentTabUrl()
-      const noteData = {
-        title: title.trim(),
-        note: noteContent.trim(),
-        url: currentUrl || ''
-      } as Note
-
       if (noteId) {
-        // Update existing note
-        await saveData?.(noteId, noteData)
+        // Update existing note - don't change URL
+        const noteData = {
+          title: title.trim(),
+          note: noteContent.trim()
+        } as Partial<Note>
+        
+        await saveData?.(noteId, noteData as Note)
       } else {
-        // Create new note
+        // Create new note - set URL only on creation
+        const currentUrl = await getCurrentTabUrl()
+        const noteData = {
+          title: title.trim(),
+          note: noteContent.trim(),
+          url: currentUrl || ''
+        } as Note
+        
         const docRef = await createData?.(noteData)
         if (docRef?.id) {
           setNoteId(docRef.id)
