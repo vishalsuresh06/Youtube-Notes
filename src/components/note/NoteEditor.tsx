@@ -7,6 +7,7 @@ import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
 import infoIcon from '../../../assets/info.svg'
 import styles from './note.module.css'
+import { get } from 'http'
 
 interface NoteEditorProps {
   initialNote?: Note
@@ -39,10 +40,10 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         if (shortcuts.includes(key)) {
           event.preventDefault() // Prevent default browser action
           
-          console.log('Shortcut detected:', {
-            key: event.key,
-            combination: `⌘${key === 'arrowdown' ? '↓' : key === 'arrowleft' ? '←' : event.key.toUpperCase()}`
-          })
+          switch (key) {
+            case 'arrowleft': onBack(); break
+            case 's': performSave(); break
+          }
         }
       }
     }
