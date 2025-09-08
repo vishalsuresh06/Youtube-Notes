@@ -4,24 +4,43 @@ import { useFirestoreCollection } from './useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../utils'
 import type { Note } from '../types'
 
+/**
+ * Custom hook for managing note editor state and functionality
+ * Handles note creation, editing, auto-saving, and synchronization with Firestore
+ */
 export const useNoteEditor = (initialNote?: Note) => {
+  // Firestore operations for note data persistence
   const { createData, saveData } = useFirestoreCollection<Note>("notes")
+  
+  // Core note state
   const [title, setTitle] = useState(initialNote?.title || '')
   const [noteContent, setNoteContent] = useState(initialNote?.note || '')
+  
+  // Save operation status tracking
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  
+  // Track when the note was last saved, handling Firestore timestamp conversion
   const [lastSavedTime, setLastSavedTime] = useState<Date | null>(
     initialNote?.updatedAt ? 
       (initialNote.updatedAt instanceof Date ? initialNote.updatedAt : (initialNote.updatedAt as any).toDate()) 
       : null
   )
+  
+  // Unique identifier for the note in Firestore
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
+  
+  // Text formatting state (currently unused but available for rich text features)
   const [boldActive, setBoldActive] = useState(false)
   const [italicActive, setItalicActive] = useState(false)
 
-  // Create the save function
+  /**
+   * Performs the actual save operation to Firestore
+   * Handles both creating new notes and updating existing ones
+   */
   const performSave = useCallback(async () => {
+    // Skip saving if both title and content are empty
     if (!title.trim() && !noteContent.trim()) {
-      return // Don't save empty notes
+      return
     }
 
     setSaveStatus('saving')
@@ -36,7 +55,7 @@ export const useNoteEditor = (initialNote?: Note) => {
         
         await saveData?.(noteId, noteData as Note)
       } else {
-        // Create new note - check if we're on YouTube and set URL only once
+        // Create new note - verify we're on a YouTube page before saving
         const currentUrl = await getCurrentTabUrl()
         if (!currentUrl || !checkYoutubeUrl(currentUrl)) {
           setSaveStatus('error')
@@ -63,18 +82,21 @@ export const useNoteEditor = (initialNote?: Note) => {
     }
   }, [title, noteContent, noteId, createData, saveData])
 
-  // Create the debounced version
-  const debouncedSave = useDebounce(performSave, 5000) // 2s delay
+  // Create debounced version of save function to prevent excessive API calls
+  const debouncedSave = useDebounce(performSave, 5000) // 5 second delay
 
-  // Auto-save when title or note changes
+  /**
+   * Auto-save effect that triggers when title or note content changes
+   * Different behavior for new vs existing notes
+   */
   useEffect(() => {
     if (initialNote) {
-      // For existing notes, only save if content has changed
+      // For existing notes, only save if content has actually changed from initial values
       if (title !== initialNote.title || noteContent !== initialNote.note) {
         debouncedSave()
       }
     } else {
-      // For new notes, save if there's any content
+      // For new notes, save as soon as there's any content
       if (title || noteContent) {
         debouncedSave()
       }
@@ -82,16 +104,16 @@ export const useNoteEditor = (initialNote?: Note) => {
   }, [title, noteContent, debouncedSave, initialNote])
 
   return {
-    // State
+    // Current state values
     title,
     noteContent,
     saveStatus,
     lastSavedTime,
     noteId,
     
-    // Actions
+    // State setters and actions
     setTitle,
     setNoteContent,
-    performSave
+    performSave // Manual save function for immediate saves
   }
 }
