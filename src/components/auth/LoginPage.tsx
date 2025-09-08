@@ -16,6 +16,12 @@ const LoginPage = ({ onLogin, isLoading }: LoginPageProps) => {
         <button className={styles.loginButton} onClick={onLogin} disabled={isLoading}>
           Log in with Google
         </button>
+
+        <hr className={styles.horizontalRule} />
+
+        <button className={styles.loginButtonOther}>
+          Sign in with Another Account
+        </button>
         
         {isLoading && (
           <div className={styles.loadingSection}>
