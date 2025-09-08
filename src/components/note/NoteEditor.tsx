@@ -7,6 +7,7 @@ import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
 import infoIcon from '../../../assets/info.svg'
 import styles from './note.module.css'
+import { EditorContent } from '@tiptap/react'
 
 interface NoteEditorProps {
   initialNote?: Note
@@ -17,11 +18,11 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   // Custom hooks for note editing logic
   const {
     title,
-    noteContent,
     saveStatus,
     lastSavedTime,
+    editor,
+    hasUnsavedChanges,
     setTitle,
-    setNoteContent,
     performSave
   } = useNoteEditor(initialNote)
 
@@ -34,8 +35,6 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     onBack,
     onYoutube: () => initialNote?.url && openYoutubeLink(initialNote.url),
     onTimestamp: () => console.log('Timestamp shortcut'),
-    onBold: () => console.log('Bold shortcut'),
-    onItalic: () => console.log('Italic shortcut')
   })
 
   // Event handlers
@@ -69,13 +68,14 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         </div>
 
         <div className={styles.contentContainer}>
-          <textarea 
-            className={styles.contentTextarea}
-            placeholder="Start writing..." 
-            value={noteContent} 
-            onChange={(e) => setNoteContent(e.target.value)}
-          />
+          {editor ? (
+            <EditorContent editor={editor} className={styles.tiptapEditor} />
+          ) : (
+            <div className={styles.editorPlaceholder}>Loading editor...</div>
+          )}
         </div>
+
+
       </div>
 
       <div className={styles.footer}>
@@ -83,6 +83,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
           {statusMessage && (
             <div className={statusMessage.className}>
               {statusMessage.text}
+              {hasUnsavedChanges && saveStatus === 'idle' && ' • Unsaved changes'}
             </div>
           )}
         </div>

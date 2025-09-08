@@ -208,14 +208,14 @@
   color: #f1f5f9;
 }
 
-/* Content textarea - Notion style */
+/* Content container - TipTap editor styles */
 .contentContainer {
   position: relative;
   flex: 1;
   overflow: hidden;
 }
 
-.contentTextarea {
+.tiptapEditor {
   width: 100%;
   height: 100%;
   background: transparent;
@@ -228,17 +228,151 @@
   padding: 0;
   margin: 0;
   font-family: inherit;
-  resize: none;
   overflow-y: auto;
 }
 
-.contentTextarea::placeholder {
+.tiptapEditor .ProseMirror {
+  outline: none;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent !important;
+  color: #e2e8f0 !important;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: inherit;
+  border: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-height: 200px;
+}
+
+.tiptapEditor .ProseMirror p {
+  margin: 0 0 8px 0;
+  padding: 0;
+  color: #e2e8f0 !important;
+}
+
+.tiptapEditor .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.tiptapEditor .ProseMirror p.is-editor-empty:first-child::before {
+  content: "Start typing or paste your thoughts...";
+  float: left;
   color: #64748b;
+  font-style: italic;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Rich text formatting - Notion style */
+.tiptapEditor .ProseMirror strong {
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.tiptapEditor .ProseMirror em {
+  color: #e2e8f0;
   font-style: italic;
 }
 
-.contentTextarea:focus {
+.tiptapEditor .ProseMirror code {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f59e0b;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.tiptapEditor .ProseMirror pre {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  overflow-x: auto;
   color: #e2e8f0;
+  font-family: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tiptapEditor .ProseMirror pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.tiptapEditor .ProseMirror blockquote {
+  border-left: 3px solid #64748b;
+  margin: 16px 0;
+  padding-left: 16px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.tiptapEditor .ProseMirror h1,
+.tiptapEditor .ProseMirror h2,
+.tiptapEditor .ProseMirror h3 {
+  color: #f1f5f9;
+  font-weight: 600;
+  margin: 24px 0 12px 0;
+  line-height: 1.2;
+}
+
+.tiptapEditor .ProseMirror h1 {
+  font-size: 28px;
+}
+
+.tiptapEditor .ProseMirror h2 {
+  font-size: 24px;
+}
+
+.tiptapEditor .ProseMirror h3 {
+  font-size: 20px;
+}
+
+.tiptapEditor .ProseMirror ul,
+.tiptapEditor .ProseMirror ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.tiptapEditor .ProseMirror li {
+  margin: 4px 0;
+  color: #e2e8f0;
+}
+
+/* Custom scrollbar for editor */
+.tiptapEditor .ProseMirror::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tiptapEditor .ProseMirror::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.tiptapEditor .ProseMirror::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.tiptapEditor .ProseMirror::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.editorPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #64748b;
+  font-style: italic;
+  font-size: 16px;
 }
 
 /* Status footer */
@@ -281,24 +415,7 @@
   transition: all 0.2s ease;
 }
 
-/* Custom scrollbar for textarea */
-.contentTextarea::-webkit-scrollbar {
-  width: 6px;
-}
-
-.contentTextarea::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 3px;
-}
-
-.contentTextarea::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-.contentTextarea::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
+/* Removed old textarea scrollbar styles - now handled by TipTap editor styles above */
 
 /* Using common fadeInUp animation from global.module.css */
 

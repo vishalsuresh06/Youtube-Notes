@@ -1,7 +1,9 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useDebounce } from './useDebounce'
 import { useFirestoreCollection } from './useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../utils'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import type { Note } from '../types'
 
 /**
@@ -14,7 +16,6 @@ export const useNoteEditor = (initialNote?: Note) => {
   
   // Core note state
   const [title, setTitle] = useState(initialNote?.title || '')
-  const [noteContent, setNoteContent] = useState(initialNote?.note || '')
   
   // Save operation status tracking
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
@@ -28,25 +29,68 @@ export const useNoteEditor = (initialNote?: Note) => {
   
   // Unique identifier for the note in Firestore
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
+
+  // Stable references that don't trigger re-renders
+  const editorRef = useRef<any>(null)
+  const initialContentRef = useRef(initialNote?.note || '')
+  const lastSavedContentRef = useRef(initialNote?.note || '')
   
+  // Track content changes for auto-save
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+
+  // Initialize TipTap editor for rich text editing
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: initialContentRef.current,
+    onCreate: ({ editor }) => {
+      editorRef.current = editor
+    },
+    onUpdate: ({ editor }) => {
+      editorRef.current = editor
+      // Check if content has actually changed
+      const currentContent = editor.getHTML()
+      if (currentContent !== lastSavedContentRef.current) {
+        setHasUnsavedChanges(true)
+      }
+    },
+    onDestroy: () => {
+      editorRef.current = null
+    }
+  })
 
   /**
    * Performs the actual save operation to Firestore
    * Handles both creating new notes and updating existing ones
    */
   const performSave = useCallback(async () => {
-    if (!title.trim()) {
+    const currentEditor = editorRef.current
+    
+    // Skip saving if both title and content are empty (for new notes)
+    if (!currentEditor) return
+    
+    const hasTitle = title.trim().length > 0
+    const hasContent = !currentEditor.isEmpty
+    
+    // For new notes, require at least title OR content
+    if (!initialNote && !hasTitle && !hasContent) {
       return
+    }
+    
+    // For existing notes, allow saving even if title is empty (user might want to clear title)
+    if (initialNote && !hasTitle && !hasContent) {
+      return  // Don't save completely empty existing notes
     }
 
     setSaveStatus('saving')
     
     try {
+      const currentContent = currentEditor.getHTML()
+      
       if (noteId) {
         // Update existing note - only update title and content, preserve original URL
         const noteData = {
           title: title.trim(),
-          note: noteContent.trim()
+          note: currentContent
         } as Partial<Note>
         
         await saveData?.(noteId, noteData as Note)
@@ -60,7 +104,7 @@ export const useNoteEditor = (initialNote?: Note) => {
         
         const noteData = {
           title: title.trim(),
-          note: noteContent.trim(),
+          note: currentContent,
           url: currentUrl
         } as Note
         
@@ -70,46 +114,56 @@ export const useNoteEditor = (initialNote?: Note) => {
         }
       }
       
+      // Update our tracking refs after successful save
+      lastSavedContentRef.current = currentContent
+      setHasUnsavedChanges(false)
       setSaveStatus('saved')
       setLastSavedTime(new Date())
     } catch (error) {
       console.error('Failed to save note:', error)
       setSaveStatus('error')
     }
-  }, [title, noteContent, noteId, createData, saveData])
+  }, [title, noteId, createData, saveData])
 
-  // Create debounced version of save function to prevent excessive API calls
-  const debouncedSave = useDebounce(performSave, 5000) // 5 second delay
+  // Create debounced version of save function - must be at top level
+  const debouncedSave = useDebounce(performSave, 2000)
 
   /**
-   * Auto-save effect that triggers when title or note content changes
-   * Different behavior for new vs existing notes
+   * Simplified auto-save logic - triggers on title or content changes
    */
   useEffect(() => {
-    if (initialNote) {
-      // For existing notes, only save if content has actually changed from initial values
-      if (title !== initialNote.title || noteContent !== initialNote.note) {
-        debouncedSave()
-      }
-    } else {
-      // For new notes, save as soon as there's any content
-      if (title || noteContent) {
-        debouncedSave()
-      }
+    // Only save if we have actual changes
+    if (hasUnsavedChanges) {
+      debouncedSave()
     }
-  }, [title, noteContent, debouncedSave, initialNote])
+  }, [hasUnsavedChanges, debouncedSave])
+
+  /**
+   * Track title changes to trigger unsaved state
+   */
+  useEffect(() => {
+    if (title !== (initialNote?.title || '')) {
+      setHasUnsavedChanges(true)
+    }
+  }, [title, initialNote?.title])
 
   return {
     // Current state values
     title,
-    noteContent,
     saveStatus,
     lastSavedTime,
     noteId,
+    hasUnsavedChanges,
+
+    editor, // TipTap editor instance
     
     // State setters and actions
     setTitle,
-    setNoteContent,
-    performSave // Manual save function for immediate saves
+    performSave, // Manual save function for immediate saves
+    
+    // Utility functions
+    getNoteContent: () => editorRef.current?.getHTML() || '',
+    getPlainTextContent: () => editorRef.current?.getText() || '',
+    hasContent: () => !editorRef.current?.isEmpty
   }
 }

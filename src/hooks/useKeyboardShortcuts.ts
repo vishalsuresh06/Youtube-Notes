@@ -23,20 +23,14 @@ export const useKeyboardShortcuts = (handlers: KeyboardShortcutHandlers) => {
           event.preventDefault() // Prevent default browser action
           
           switch (key) {
-            case 'arrowleft':
-              handlers.onBack?.()
-              break
             case 's':
               handlers.onSave?.()
               break
+            case 'arrowleft':
+              handlers.onBack?.()
+              break
             case 'arrowdown':
               handlers.onTimestamp?.()
-              break
-            case 'b':
-              handlers.onBold?.()
-              break
-            case 'i':
-              handlers.onItalic?.()
               break
             case 'y':
               handlers.onYoutube?.()
