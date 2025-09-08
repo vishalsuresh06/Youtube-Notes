@@ -4,6 +4,7 @@ import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
+import infoIcon from '../../../assets/info.svg'
 import styles from './note.module.css'
 
 interface NoteEditorProps {
@@ -156,6 +157,12 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
               {statusMessage.text}
             </div>
           )}
+        </div>
+        <div className={styles.footerSpacer}></div>
+        <div className={styles.infoContainer}>
+          <button className={styles.infoButton}>
+            <img src={infoIcon} alt="Info" className={styles.infoIcon} />
+          </button>
         </div>
       </div>
     </div>
