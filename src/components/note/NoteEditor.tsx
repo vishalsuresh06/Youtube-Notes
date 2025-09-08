@@ -27,34 +27,6 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   )
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
 
-  // Keyboard shortcut listener
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Check for specific shortcuts only
-      if (event.metaKey) {
-        const key = event.key.toLowerCase()
-        
-        // Define the shortcuts we want to capture
-        const shortcuts = ['arrowdown', 's', 'b', 'i', 'y', 'arrowleft']
-        
-        if (shortcuts.includes(key)) {
-          event.preventDefault() // Prevent default browser action
-          
-          switch (key) {
-            case 'arrowleft': onBack(); break
-            case 's': performSave(); break
-          }
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
-
   // Create the save function
   const performSave = useCallback(async () => {
     if (!title.trim() && !noteContent.trim()) {
@@ -102,6 +74,34 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
 
   // Create the debounced version
   const debouncedSave = useDebounce(performSave, 2000) // 2s delay
+
+  // Keyboard shortcut listener
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check for specific shortcuts only
+      if (event.metaKey) {
+        const key = event.key.toLowerCase()
+        
+        // Define the shortcuts we want to capture
+        const shortcuts = ['arrowdown', 's', 'b', 'i', 'y', 'arrowleft']
+        
+        if (shortcuts.includes(key)) {
+          event.preventDefault() // Prevent default browser action
+          
+          switch (key) {
+            case 'arrowleft': onBack(); break
+            case 's': performSave(); break
+          }
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [performSave, onBack])
 
   // Auto-save when title or note changes
   useEffect(() => {
