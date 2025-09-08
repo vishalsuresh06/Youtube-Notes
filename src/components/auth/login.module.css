@@ -343,8 +343,8 @@
   }
 }
 
-/* Animation for page load */
-@keyframes fadeInUp {
+/* Using common fadeInUp animation from global.module.css with custom timing */
+@keyframes fadeInUpCustom {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -356,7 +356,7 @@
 }
 
 .loginCard {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUpCustom 0.6s ease-out;
 }
 
 /* Focus states for accessibility */

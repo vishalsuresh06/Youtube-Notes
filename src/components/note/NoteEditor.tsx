@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useDebounce } from '../../hooks/useDebounce'
 import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
+import InfoPopup from './info-popup/InfoPopup'
 import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
 import infoIcon from '../../../assets/info.svg'
@@ -17,6 +18,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   const [title, setTitle] = useState(initialNote?.title || '')
   const [noteContent, setNoteContent] = useState(initialNote?.note || '')
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [isInfoOpen, setIsInfoOpen] = useState(false)
   const [lastSavedTime, setLastSavedTime] = useState<Date | null>(
     initialNote?.updatedAt ? 
       (initialNote.updatedAt instanceof Date ? initialNote.updatedAt : (initialNote.updatedAt as any).toDate()) 
@@ -118,6 +120,11 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   
   const statusMessage = getStatusMessage()
 
+  const handleInfoClick = () => {
+    setIsInfoOpen(!isInfoOpen)
+
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -160,11 +167,12 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         </div>
         <div className={styles.footerSpacer}></div>
         <div className={styles.infoContainer}>
-          <button className={styles.infoButton}>
+          <button className={styles.infoButton} onClick={handleInfoClick}>
             <img src={infoIcon} alt="Info" className={styles.infoIcon} />
           </button>
         </div>
       </div>
+      {isInfoOpen && <InfoPopup open={isInfoOpen} onClose={() => setIsInfoOpen(false)} />}
     </div>
   )
 }
