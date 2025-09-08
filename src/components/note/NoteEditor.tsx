@@ -3,6 +3,7 @@ import { useDebounce } from '../../hooks/useDebounce'
 import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
+import YoutubeIcon from '../../../assets/youtube.svg'
 import styles from './note.module.css'
 
 interface NoteEditorProps {
@@ -28,20 +29,11 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
       return // Don't save empty notes
     }
 
-    // For new notes, check if we're on YouTube
-    if (!initialNote) {
-      const currentTabUrl = await getCurrentTabUrl()
-      if (!currentTabUrl || !checkYoutubeUrl(currentTabUrl)) {
-        setSaveStatus('error')
-        return
-      }
-    }
-
     setSaveStatus('saving')
     
     try {
       if (noteId) {
-        // Update existing note - don't change URL
+        // Update existing note - only update title and content, preserve original URL
         const noteData = {
           title: title.trim(),
           note: noteContent.trim()
@@ -49,12 +41,17 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         
         await saveData?.(noteId, noteData as Note)
       } else {
-        // Create new note - set URL only on creation
+        // Create new note - check if we're on YouTube and set URL only once
         const currentUrl = await getCurrentTabUrl()
+        if (!currentUrl || !checkYoutubeUrl(currentUrl)) {
+          setSaveStatus('error')
+          return
+        }
+        
         const noteData = {
           title: title.trim(),
           note: noteContent.trim(),
-          url: currentUrl || ''
+          url: currentUrl
         } as Note
         
         const docRef = await createData?.(noteData)
@@ -69,7 +66,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
       console.error('Failed to save note:', error)
       setSaveStatus('error')
     }
-  }, [title, noteContent, noteId, createData, saveData, initialNote])
+  }, [title, noteContent, noteId, createData, saveData])
 
   // Create the debounced version
   const debouncedSave = useDebounce(performSave, 2000) // 2s delay
@@ -113,13 +110,20 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         return null
     }
   }
+
+  const openYoutubeLink = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
   
   const statusMessage = getStatusMessage()
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={onBack} aria-label="Go back">
+        <button className={styles.backButton} onClick={onBack} aria-label="Go back"></button>
+        <div className={styles.headerSpacer}></div>
+        <button className={styles.youtubeButton} onClick={() => openYoutubeLink(initialNote.url)}>
+          <img src={YoutubeIcon} alt="YouTube" className={styles.youtubeIcon} />
         </button>
       </div>
 
