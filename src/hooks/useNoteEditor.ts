@@ -15,6 +15,8 @@ export const useNoteEditor = (initialNote?: Note) => {
       : null
   )
   const [noteId, setNoteId] = useState<string | null>(initialNote?.id || null)
+  const [boldActive, setBoldActive] = useState(false)
+  const [italicActive, setItalicActive] = useState(false)
 
   // Create the save function
   const performSave = useCallback(async () => {
