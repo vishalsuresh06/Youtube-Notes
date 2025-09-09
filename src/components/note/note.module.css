@@ -85,7 +85,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 12px 0;
+  margin: 0 0 12px 8px;
 }
 
 .actionButton:hover {
@@ -93,14 +93,18 @@
   border-color: var(--border-focus);
 }
 
-.youtubeIcon {
+.youtubeIcon,
+.addIcon,
+.aIIcon {
   width: 18px;
   height: 18px;
   filter: brightness(0) saturate(100%) invert(71%) sepia(14%) saturate(193%) hue-rotate(183deg) brightness(95%) contrast(90%);
-  transition: filter 0.2s ease;
+  transition: var(--transition-fast);
 }
 
-.actionButton:hover .youtubeIcon {
+.actionButton:hover .youtubeIcon,
+.actionButton:hover .addIcon,
+.actionButton:hover .aIIcon {
   filter: brightness(0) saturate(100%) invert(35%) sepia(88%) saturate(3467%) hue-rotate(348deg) brightness(98%) contrast(90%);
 }
 
@@ -127,7 +131,7 @@
   width: 18px;
   height: 18px;
   filter: brightness(0) saturate(100%) invert(71%) sepia(14%) saturate(193%) hue-rotate(183deg) brightness(95%) contrast(90%);
-  transition: filter 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 .infoButton:hover .infoIcon {

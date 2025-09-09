@@ -52,11 +52,11 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
       <div className={styles.header}>
         <button className={styles.backButton} onClick={onBack} aria-label="Go back"></button>
         <div className={styles.headerSpacer}></div>
-        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
-          <img src={AIIcon} alt="YouTube" className={styles.youtubeIcon} />
+        <button className={styles.actionButton}>
+          <img src={AIIcon} alt="YouTube" className={styles.aIIcon} />
         </button>
-        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
-          <img src={AddIcon} alt="YouTube" className={styles.youtubeIcon} />
+        <button className={styles.actionButton}>
+          <img src={AddIcon} alt="YouTube" className={styles.addIcon} />
         </button>
         <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
           <img src={YoutubeIcon} alt="YouTube" className={styles.youtubeIcon} />
