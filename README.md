@@ -5,6 +5,7 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 ## ✨ Features
 
 - **📝 Rich Note-Taking**: Create and edit notes with TipTap rich text editor featuring formatting, lists, and more
+- **🤖 AI-Powered Features**: Leverage Google AI Studio's Gemini API for intelligent note enhancements
 - **⌨️ Keyboard Shortcuts**: Efficient note-taking with customizable keyboard shortcuts
 - **🔗 Video Linking**: Notes are automatically linked to specific YouTube videos
 - **⏱️ Timestamp Support**: Jump to specific moments in videos from your notes
@@ -20,13 +21,14 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - **Framework**: [Plasmo](https://plasmo.com/) - Modern Chrome extension framework
 - **Frontend**: React + TypeScript
 - **Editor**: [TipTap](https://tiptap.dev/) - Rich text editor with extensible architecture
+- **AI Integration**: [Google AI Studio](https://ai.google.dev/aistudio) - Gemini API for intelligent features
 - **Database**: Firebase Firestore
 - **Authentication**: Firebase Auth (Google OAuth)
 - **Styling**: CSS Modules with component-specific organization
 
 ## 📊 Progress Tracker
 
-### Overall Progress: 85% Complete
+### Overall Progress: 75% Complete
 
 | Phase | Status | Progress | Description |
 |-------|--------|----------|-------------|
@@ -34,6 +36,7 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 | 🔐 **Authentication** | ✅ Complete | 100% | Firebase Auth integration, Google OAuth |
 | 📝 **Core Note-Taking** | ✅ Complete | 100% | TipTap rich text editor, CRUD operations |
 | 🔗 **YouTube Integration** | 🔄 In Progress | 70% | Video detection, URL syncing, warnings |
+| 🤖 **AI Integration** | 📋 Planned | 0% | Google AI Studio, Gemini API, smart features |
 | ☁️ **Cloud Synchronization** | ✅ Complete | 100% | Real-time sync across devices via Firestore |
 | 🎨 **UI/UX Polish** | ✅ Complete | 95% | Clean component architecture, modular styles |
 | 🚀 **Testing & Deployment** | 📋 Planned | 0% | QA, Chrome Web Store submission |
@@ -86,6 +89,16 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - [ ] Offline support
 - [ ] Search functionality
 - [ ] Note organization (tags/folders)
+
+**Phase 2.5: AI Integration**
+- [ ] Google AI Studio API integration
+- [ ] Auto-summary generation for notes
+- [ ] Key points extraction from content
+- [ ] Smart categorization and tagging
+- [ ] Video content analysis and transcription
+- [ ] AI-powered search enhancement
+- [ ] Interactive learning features (quizzes, explanations)
+- [ ] Personalized study recommendations
 
 
 
@@ -287,6 +300,111 @@ import { getStatusMessage } from '../../utils/noteHelpers'
 - **Hook extraction**: Extract reusable logic into custom hooks
 - **Type definitions**: Maintain centralized type definitions in `/types`
 
+## 🤖 AI Integration with Google AI Studio
+
+This project leverages Google AI Studio's Gemini API to provide intelligent features that enhance the note-taking experience.
+
+### 🎯 Planned AI Features
+
+#### **Smart Note Enhancement**
+- **Auto-Summary**: Generate concise summaries of long notes
+- **Key Points Extraction**: Automatically identify and highlight important concepts
+- **Content Structuring**: Organize unstructured notes into clear, logical sections
+- **Grammar & Style**: Improve writing quality with AI-powered suggestions
+
+#### **Video Content Analysis**
+- **Auto-Transcription**: Convert video speech to searchable text notes
+- **Topic Detection**: Automatically identify main topics and themes from video content
+- **Timestamp Intelligence**: Smart timestamp suggestions for key moments
+- **Content Recommendations**: Suggest related videos or topics based on note content
+
+#### **Smart Organization**
+- **Auto-Categorization**: Intelligently categorize notes by subject or theme
+- **Tag Suggestions**: AI-powered tag recommendations for better organization
+- **Duplicate Detection**: Identify and merge similar or duplicate notes
+- **Search Enhancement**: Semantic search that understands context and intent
+
+#### **Interactive Learning**
+- **Quiz Generation**: Create study quizzes from your notes
+- **Concept Explanation**: Get detailed explanations of complex topics
+- **Study Plan Creation**: AI-generated study schedules based on your notes
+- **Progress Tracking**: Intelligent learning progress analysis
+
+### 🔧 Technical Implementation
+
+#### **API Integration Structure**
+```typescript
+// AI service integration
+src/
+├── services/
+│   ├── ai/
+│   │   ├── gemini.ts          # Gemini API client
+│   │   ├── prompts.ts         # AI prompt templates
+│   │   ├── types.ts           # AI-related type definitions
+│   │   └── index.ts           # Clean exports
+│   └── index.ts
+├── hooks/
+│   ├── useAI.ts               # AI operations hook
+│   ├── useSmartSummary.ts     # Auto-summary functionality
+│   └── useContentAnalysis.ts  # Video content analysis
+```
+
+#### **Environment Configuration**
+```env
+# Google AI Studio Configuration
+PLASMO_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+PLASMO_PUBLIC_AI_MODEL=gemini-1.5-pro
+PLASMO_PUBLIC_AI_FEATURES_ENABLED=true
+```
+
+#### **Usage Examples**
+```typescript
+// Smart note enhancement
+const { generateSummary, extractKeyPoints } = useSmartSummary()
+const summary = await generateSummary(noteContent)
+
+// Video content analysis  
+const { analyzeVideo, getTopics } = useContentAnalysis()
+const analysis = await analyzeVideo(videoUrl, transcript)
+
+// Auto-categorization
+const { categorizeNote, suggestTags } = useAI()
+const category = await categorizeNote(noteContent)
+```
+
+### 🚀 Implementation Roadmap
+
+#### **Phase 1: Foundation (Planned)**
+- [ ] Google AI Studio API integration
+- [ ] Basic prompt engineering and templates
+- [ ] Error handling and rate limiting
+- [ ] User consent and privacy controls
+
+#### **Phase 2: Core Features (Planned)**
+- [ ] Auto-summary generation
+- [ ] Key points extraction
+- [ ] Basic content structuring
+- [ ] Simple categorization
+
+#### **Phase 3: Advanced Features (Planned)**
+- [ ] Video content analysis
+- [ ] Smart search enhancement
+- [ ] Interactive learning features
+- [ ] Personalized recommendations
+
+#### **Phase 4: Intelligence (Future)**
+- [ ] Machine learning model fine-tuning
+- [ ] Advanced context understanding
+- [ ] Multi-language support
+- [ ] Cross-platform AI sync
+
+### 🔒 Privacy & Ethics
+
+- **Data Privacy**: All AI processing respects user privacy with optional cloud processing
+- **Transparent AI**: Clear indicators when AI features are active
+- **User Control**: Full control over AI feature usage and data sharing
+- **Ethical AI**: Responsible AI usage following Google's AI principles
+
 ### Firebase Setup
 
 1. **Firestore Security Rules**
@@ -341,11 +459,13 @@ The extension requires these permissions:
 ## 🗺️ Long-term Roadmap
 
 - [ ] **v1.0**: Core functionality (notes, sync, timestamps)
-- [ ] **v1.1**: Advanced search and filtering
-- [ ] **v1.2**: Note sharing and collaboration
-- [ ] **v1.3**: Export options (PDF, Markdown)
-- [ ] **v1.4**: Integration with note-taking apps
-- [ ] **v2.0**: Mobile companion app
+- [ ] **v1.1**: AI Integration (Google AI Studio, smart summaries)
+- [ ] **v1.2**: Advanced AI features (content analysis, learning tools)
+- [ ] **v1.3**: Enhanced search and AI-powered organization
+- [ ] **v1.4**: Note sharing and collaboration
+- [ ] **v1.5**: Export options (PDF, Markdown) with AI enhancement
+- [ ] **v1.6**: Integration with note-taking apps
+- [ ] **v2.0**: Mobile companion app with AI sync
 
 ---
 
