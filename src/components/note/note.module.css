@@ -74,7 +74,7 @@
   outline-offset: 2px;
 }
 
-.youtubeButton {
+.actionButton {
   width: 36px;
   height: 36px;
   cursor: pointer;
@@ -88,7 +88,7 @@
   margin: 0 0 12px 0;
 }
 
-.youtubeButton:hover {
+.actionButton:hover {
   background: rgba(239, 68, 68, 0.1);
   border-color: var(--border-focus);
 }
@@ -100,7 +100,7 @@
   transition: filter 0.2s ease;
 }
 
-.youtubeButton:hover .youtubeIcon {
+.actionButton:hover .youtubeIcon {
   filter: brightness(0) saturate(100%) invert(35%) sepia(88%) saturate(3467%) hue-rotate(348deg) brightness(98%) contrast(90%);
 }
 

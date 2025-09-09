@@ -5,6 +5,8 @@ import { getStatusMessage, openYoutubeLink } from '../../utils/noteHelpers'
 import InfoPopup from './info-popup/InfoPopup'
 import type { Note } from '../../types'
 import YoutubeIcon from '../../../assets/youtube.svg'
+import AIIcon from '../../../assets/brain.svg'
+import AddIcon from '../../../assets/plus.svg'
 import infoIcon from '../../../assets/info.svg'
 import styles from './note.module.css'
 import { EditorContent } from '@tiptap/react'
@@ -50,7 +52,13 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
       <div className={styles.header}>
         <button className={styles.backButton} onClick={onBack} aria-label="Go back"></button>
         <div className={styles.headerSpacer}></div>
-        <button className={styles.youtubeButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
+        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
+          <img src={AIIcon} alt="YouTube" className={styles.youtubeIcon} />
+        </button>
+        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
+          <img src={AddIcon} alt="YouTube" className={styles.youtubeIcon} />
+        </button>
+        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
           <img src={YoutubeIcon} alt="YouTube" className={styles.youtubeIcon} />
         </button>
       </div>
