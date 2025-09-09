@@ -4,34 +4,38 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 
 ## ✨ Features
 
-- **📝 Rich Note-Taking**: Create and edit notes with a clean, intuitive interface
+- **📝 Rich Note-Taking**: Create and edit notes with TipTap rich text editor featuring formatting, lists, and more
+- **⌨️ Keyboard Shortcuts**: Efficient note-taking with customizable keyboard shortcuts
 - **🔗 Video Linking**: Notes are automatically linked to specific YouTube videos
 - **⏱️ Timestamp Support**: Jump to specific moments in videos from your notes
-- **☁️ Cloud Sync**: Access your notes from any device with real-time synchronization
+- **☁️ Cloud Sync**: Access your notes from any device with real-time synchronization via Firestore
 - **🔐 Secure Login**: Google OAuth authentication for seamless access
-- **🎨 Modern UI**: Clean, responsive design that integrates seamlessly with YouTube
+- **🎨 Modern UI**: Clean, responsive design with organized component architecture
 - **🔍 Search & Organize**: Find your notes quickly with built-in search functionality
 - **📱 Cross-Device**: Works across all your Chrome browsers with automatic syncing
+- **🏗️ Clean Architecture**: Well-organized codebase with modular imports and component structure
 
 ## 🛠️ Tech Stack
 
 - **Framework**: [Plasmo](https://plasmo.com/) - Modern Chrome extension framework
 - **Frontend**: React + TypeScript
+- **Editor**: [TipTap](https://tiptap.dev/) - Rich text editor with extensible architecture
 - **Database**: Firebase Firestore
 - **Authentication**: Firebase Auth (Google OAuth)
+- **Styling**: CSS Modules with component-specific organization
 
 ## 📊 Progress Tracker
 
-### Overall Progress: 67% Complete
+### Overall Progress: 85% Complete
 
 | Phase | Status | Progress | Description |
 |-------|--------|----------|-------------|
-| 🏗️ **Setup & Infrastructure** | ✅ Complete | 100% | Project initialization, tech stack decisions |
+| 🏗️ **Setup & Infrastructure** | ✅ Complete | 100% | Project initialization, clean architecture |
 | 🔐 **Authentication** | ✅ Complete | 100% | Firebase Auth integration, Google OAuth |
-| 📝 **Core Note-Taking** | ✅ Complete | 100% | Basic CRUD operations for notes |
-| 🔗 **YouTube Integration** | 📋 Planned | 0% | Video detection, URL syncing |
-| ☁️ **Cloud Synchronization** | ✅ Complete | 100% | Real-time sync across devices |
-| 🎨 **UI/UX Polish** | 📋 In Progress | 66% | Responsive design, user experience |
+| 📝 **Core Note-Taking** | ✅ Complete | 100% | TipTap rich text editor, CRUD operations |
+| 🔗 **YouTube Integration** | 🔄 In Progress | 70% | Video detection, URL syncing, warnings |
+| ☁️ **Cloud Synchronization** | ✅ Complete | 100% | Real-time sync across devices via Firestore |
+| 🎨 **UI/UX Polish** | ✅ Complete | 95% | Clean component architecture, modular styles |
 | 🚀 **Testing & Deployment** | 📋 Planned | 0% | QA, Chrome Web Store submission |
 
 ### Feature Completion Status
@@ -66,11 +70,13 @@ A powerful Chrome extension that allows users to take timestamped notes while wa
 - [x] Basic note storage and retrieval
 
 **Phase 3: Polish & Optimization**
-- [ ] Rich text editor integration
-- [ ] Keyboard shortcuts
+- [x] Rich text editor integration (TipTap)
+- [x] Keyboard shortcuts
 - [ ] Dark/light theme toggle
 - [ ] Export functionality
-- [ ] Performance optimizations
+- [x] Performance optimizations
+- [x] Component architecture cleanup
+- [x] Import/export pattern optimization
 
 #### 📋 Planned Features
 
@@ -153,45 +159,79 @@ youtube-notes/
 │   ├── components/             # React components
 │   │   ├── auth/              # Authentication components
 │   │   │   ├── LoginPage.tsx  # Login interface
-│   │   │   ├── login.module.css
-│   │   │   └── index.ts
+│   │   │   └── index.ts       # Clean exports
 │   │   ├── dashboard/         # Dashboard components
 │   │   │   ├── Dashboard.tsx  # Main dashboard
 │   │   │   ├── GetNotes.tsx   # Notes retrieval component
 │   │   │   ├── UserHeader.tsx # User profile header
-│   │   │   ├── dashboard.module.css
-│   │   │   └── index.ts
+│   │   │   └── index.ts       # Clean exports
 │   │   ├── note/             # Note-related components
 │   │   │   ├── ExistingNote.tsx # Edit existing notes
 │   │   │   ├── NewNote.tsx    # Create new notes
+│   │   │   ├── NoteEditor.tsx  # Rich text editor with TipTap
+│   │   │   ├── info-popup/    # Info popup subcomponent
+│   │   │   │   ├── InfoPopup.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── yt-warning-popup/ # YouTube warning subcomponent
+│   │   │   │   ├── YTWarningPopup.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts       # Clean exports
+│   │   └── index.ts           # Main component exports
+│   ├── assets/               # Organized assets
+│   │   └── icons/            # Icon management
+│   │       └── index.ts      # Centralized icon exports
+│   ├── styles/               # Organized CSS modules
+│   │   ├── auth/             # Authentication styles
+│   │   │   ├── login.module.css
 │   │   │   └── index.ts
-│   │   └── index.ts
+│   │   ├── dashboard/        # Dashboard styles
+│   │   │   ├── dashboard.module.css
+│   │   │   └── index.ts
+│   │   ├── note/             # Note component styles
+│   │   │   ├── note.module.css
+│   │   │   ├── info.module.css
+│   │   │   ├── yt-warning.module.css
+│   │   │   └── index.ts
+│   │   ├── global/           # Global styles
+│   │   │   ├── global.module.css
+│   │   │   └── index.ts
+│   │   └── index.ts          # Main styles export
 │   ├── firebase/             # Firebase integration
 │   │   ├── index.ts          # Firebase configuration
-│   │   ├── hook.ts           # Firebase hooks
-│   │   └── use-firestore-doc.ts # Firestore document hook
+│   │   └── hook.ts           # Firebase hooks
 │   ├── hooks/                # Custom React hooks
-│   │   └── useDebounce.ts    # Debounce utility hook
+│   │   ├── useDebounce.ts    # Debounce utility hook
+│   │   ├── useFirestoreCollection.ts
+│   │   ├── useFirestoreDoc.ts
+│   │   ├── useKeyboardShortcuts.ts
+│   │   ├── useNoteEditor.ts  # TipTap editor hook
+│   │   └── index.ts          # Clean exports
 │   ├── types/                # TypeScript type definitions
 │   │   ├── index.ts          # Main type exports
 │   │   ├── Note.ts           # Note type definitions
 │   │   └── svg.d.ts          # SVG module declarations
 │   ├── utils/                # Utility functions
-│   │   ├── delete-note.ts    # Note deletion utility
-│   │   ├── get-notes.ts      # Notes retrieval utility
-│   │   ├── save-note.ts      # Note saving utility
-│   │   └── index.ts
-│   └── global.module.css     # Global styles
-├── assets/                   # Static assets
-│   ├── delete.svg           # Delete icon
-│   ├── edit.svg             # Edit icon
-│   └── icon.png             # Extension icon
-├── build/                   # Build output
-│   ├── chrome-mv3-dev/      # Development build
-│   └── chrome-mv3-prod/     # Production build
-├── package.json             # Dependencies and scripts
-├── tsconfig.json            # TypeScript configuration
-└── README.md               # Project documentation
+│   │   ├── get-current-tab-url.ts
+│   │   ├── noteHelpers.ts    # Note-related utilities
+│   │   ├── youtube_context/  # YouTube integration utilities
+│   │   │   └── check_youtube_url.ts
+│   │   └── index.ts          # Clean exports
+│   └── types/                # TypeScript definitions
+├── assets/                   # Static assets (root level)
+│   ├── youtube.svg           # YouTube icon
+│   ├── brain.svg             # AI icon
+│   ├── plus.svg              # Add icon
+│   ├── info.svg              # Info icon
+│   ├── back.svg              # Back icon
+│   ├── delete.svg            # Delete icon
+│   ├── edit.svg              # Edit icon
+│   └── icon.png              # Extension icon
+├── build/                    # Build output
+│   ├── chrome-mv3-dev/       # Development build
+│   └── chrome-mv3-prod/      # Production build
+├── package.json              # Dependencies and scripts
+├── tsconfig.json             # TypeScript configuration
+└── README.md                 # Project documentation
 ```
 
 ## 🎯 Usage
@@ -215,6 +255,37 @@ youtube-notes/
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run package` - Create extension package for Chrome Web Store
+
+### Code Organization & Import Patterns
+
+This project follows a clean architecture with organized imports and exports:
+
+#### ✨ Clean Import Patterns
+```typescript
+// ✅ Clean imports using index.ts files
+import { useNoteEditor, useKeyboardShortcuts } from '../../hooks'
+import { getStatusMessage, openYoutubeLink } from '../../utils'
+import { LoginPage, Dashboard } from './components'
+import { YoutubeIcon, AIIcon, AddIcon } from '../../assets/icons'
+
+// ❌ Avoid deep imports
+import { useNoteEditor } from '../../hooks/useNoteEditor'
+import { getStatusMessage } from '../../utils/noteHelpers'
+```
+
+#### 📁 Directory Structure Benefits
+- **Modular Organization**: Each directory has its own `index.ts` for clean exports
+- **Component Colocation**: Related components are grouped together
+- **Style Organization**: CSS modules are organized by component hierarchy
+- **Asset Management**: Centralized icon and asset management
+- **Type Safety**: Centralized TypeScript definitions
+
+#### 🎯 Development Best Practices
+- **Import from index files**: Always import from directory index files when possible
+- **Component composition**: Break complex components into smaller, reusable pieces
+- **Style encapsulation**: Use CSS modules for component-specific styling
+- **Hook extraction**: Extract reusable logic into custom hooks
+- **Type definitions**: Maintain centralized type definitions in `/types`
 
 ### Firebase Setup
 
