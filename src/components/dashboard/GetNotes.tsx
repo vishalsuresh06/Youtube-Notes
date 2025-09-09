@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import type { Note } from '../../types'
-import { useFirestoreCollection } from '../../hooks/useFirestoreCollection'
-import styles from './dashboard.module.css'
-import deleteIcon from '../../../assets/delete.svg'
+import { useFirestoreCollection } from '../../hooks'
+import { dashboardStyles as styles } from '../../styles'
+import { DeleteIcon } from '../../assets/icons'
 
 interface GetNotesProps {
   email: string | null
@@ -39,7 +39,7 @@ function NotesDisplay({ notes, usedSearch, onEditNote, onDeleteNote }: {
             <h4 className={styles.noteTitle}>{note.title || 'Untitled'}</h4>
           </div>
           <div className={styles.noteActions}>
-            <button className={styles.deleteNoteButton} onClick={() => handleDeleteNote(note)}><img src={deleteIcon} alt="Delete" /></button>
+            <button className={styles.deleteNoteButton} onClick={() => handleDeleteNote(note)}><img src={DeleteIcon} alt="Delete" /></button>
           </div>
         </div>
       ))}

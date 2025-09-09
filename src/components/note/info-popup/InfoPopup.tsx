@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import styles from './info.module.css'
+import { infoStyles as styles } from '../../../styles'
 
 interface InfoPopupProps {
   open: boolean;

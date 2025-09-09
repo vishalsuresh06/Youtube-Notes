@@ -1,5 +1,5 @@
 import React from 'react'
-import NoteEditor from './NoteEditor'
+import { NoteEditor } from './index'
 import type { Note } from '../../types'
 
 interface ExistingNoteProps {

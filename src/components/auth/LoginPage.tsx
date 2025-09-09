@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './login.module.css'
+import { loginStyles as styles } from '../../styles'
 
 interface LastUser {
   uid: string

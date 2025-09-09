@@ -4,7 +4,7 @@ import { UserHeader, GetNotes } from './index'
 import { NewNote, ExistingNote, YTWarningPopup } from '../note'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
 import type { Note } from '../../types'
-import styles from './dashboard.module.css'
+import { dashboardStyles as styles } from '../../styles'
 
 interface DashboardProps {
   onViewChange?: (view: 'dashboard' | 'new-note' | 'edit-note') => void

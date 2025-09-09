@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import NoteEditor from './NoteEditor'
+import { NoteEditor } from './index'
 import { YTWarningPopup } from './index'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
-import styles from './note.module.css'
+import { noteStyles as styles } from '../../styles'
 
 interface NewNoteProps {
     onBack: () => void

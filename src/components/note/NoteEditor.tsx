@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-import { useNoteEditor } from '../../hooks/useNoteEditor'
-import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts'
-import { getStatusMessage, openYoutubeLink } from '../../utils/noteHelpers'
-import InfoPopup from './info-popup/InfoPopup'
+import { useNoteEditor, useKeyboardShortcuts } from '../../hooks'
+import { getStatusMessage, openYoutubeLink } from '../../utils'
+import { InfoPopup } from './info-popup'
 import type { Note } from '../../types'
-import YoutubeIcon from '../../../assets/youtube.svg'
-import AIIcon from '../../../assets/brain.svg'
-import AddIcon from '../../../assets/plus.svg'
-import infoIcon from '../../../assets/info.svg'
-import styles from './note.module.css'
+import { YoutubeIcon, AIIcon, AddIcon, InfoIcon } from '../../assets/icons'
+import { noteStyles as styles } from '../../styles'
 import { EditorContent } from '@tiptap/react'
 
 interface NoteEditorProps {
@@ -98,7 +94,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         <div className={styles.footerSpacer}></div>
         <div className={styles.infoContainer}>
           <button className={styles.infoButton} onClick={handleInfoClick}>
-            <img src={infoIcon} alt="Info" className={styles.infoIcon} />
+            <img src={InfoIcon} alt="Info" className={styles.infoIcon} />
           </button>
         </div>
       </div>

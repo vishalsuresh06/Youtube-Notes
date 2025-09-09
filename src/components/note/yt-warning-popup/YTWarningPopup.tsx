@@ -1,6 +1,6 @@
 import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import React from 'react'
-import styles from './yt-warning.module.css'
+import { ytWarningStyles as styles } from '../../../styles'
 
 interface YTWarningPopupProps {
   isOpen: boolean
