@@ -1,3 +1,3 @@
-export { default as noteStyles } from './note.module.css'
-export { default as infoStyles } from './info.module.css'
-export { default as ytWarningStyles } from './yt-warning.module.css'
+export { default as noteStyles } from './note-editor.module.css'
+export { default as infoStyles } from './shortcuts-modal.module.css'
+export { default as ytWarningStyles } from './youtube-warning-modal.module.css'

@@ -1,1 +1,1 @@
-export { default as globalStyles } from './global.module.css'
+export { default as globalStyles } from './theme-variables.module.css'
