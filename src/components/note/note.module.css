@@ -2,32 +2,38 @@
 
 .container {
   height: 100vh;
-  background: #111111;
+  background: var(--bg-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   padding: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  animation: fadeInUp 0.4s ease-out;
 }
 
-/* Header with back button */
+/* Header */
 .header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 12px 12px 0 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-primary);
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
 }
 
+.headerSpacer {
+  flex: 1;
+}
+
+/* Buttons */
 .backButton {
   width: 36px;
   height: 36px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
   background: transparent;
   border: 1px solid transparent;
   position: relative;
@@ -42,70 +48,10 @@
   content: '';
   width: 8px;
   height: 8px;
-  border-left: 2px solid #94a3b8;
-  border-bottom: 2px solid #94a3b8;
+  border-left: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
   transform: rotate(45deg);
-  transition: all 0.2s ease;
-}
-
-/* Loading and warning states */
-.loadingContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: #111111;
-  color: #e2e8f0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-}
-
-.loadingContent {
-  text-align: center;
-  padding: 20px;
-}
-
-.loadingText {
-  font-size: 16px;
-  color: #94a3b8;
-}
-
-.warningContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: #111111;
-  color: #e2e8f0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-}
-
-.warningContent {
-  text-align: center;
-  padding: 20px;
-}
-
-.warningTitle {
-  margin-bottom: 16px;
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.warningMessage {
-  margin-bottom: 24px;
-  font-size: 16px;
-  color: #94a3b8;
-}
-
-.warningButton {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 .backButton:hover {
@@ -115,22 +61,27 @@
 }
 
 .backButton:hover::before {
-  border-color: #f1f5f9;
+  border-color: var(--text-primary);
 }
 
-.headerSpacer {
-  flex: 1;
+.backButton:active {
+  transform: translateX(-1px);
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.backButton:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .youtubeButton {
-  /* Using common icon button base styles */
   width: 36px;
   height: 36px;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,7 +90,7 @@
 
 .youtubeButton:hover {
   background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: var(--border-focus);
 }
 
 .youtubeIcon {
@@ -153,17 +104,37 @@
   filter: brightness(0) saturate(100%) invert(35%) sepia(88%) saturate(3467%) hue-rotate(348deg) brightness(98%) contrast(90%);
 }
 
-.backButton:active {
-  transform: translateX(-1px);
-  background: rgba(148, 163, 184, 0.15);
+.infoButton {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  background: transparent;
+  border: 1px solid var(--border-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
 }
 
-.backButton:focus {
-  outline: 2px solid #ef4444;
-  outline-offset: 2px;
+.infoButton:hover {
+  background: rgba(148, 163, 184, 0.1);
+  border-color: var(--border-hover);
 }
 
-/* Main editor area */
+.infoIcon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(71%) sepia(14%) saturate(193%) hue-rotate(183deg) brightness(95%) contrast(90%);
+  transition: filter 0.2s ease;
+}
+
+.infoButton:hover .infoIcon {
+  filter: brightness(0) saturate(100%) invert(99%) sepia(3%) saturate(82%) hue-rotate(52deg) brightness(118%) contrast(100%);
+}
+
+/* Editor */
 .editor {
   flex: 1;
   max-width: 800px;
@@ -176,7 +147,6 @@
   overflow: hidden;
 }
 
-/* Title input - Notion style */
 .titleContainer {
   position: relative;
 }
@@ -188,7 +158,7 @@
   outline: none;
   font-size: 42px;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-primary);
   line-height: 1.1;
   padding: 0;
   margin: 0;
@@ -200,15 +170,14 @@
 }
 
 .titleInput::placeholder {
-  color: #64748b;
+  color: var(--text-disabled);
   font-weight: 400;
 }
 
 .titleInput:focus {
-  color: #f1f5f9;
+  color: var(--text-primary);
 }
 
-/* Content container - TipTap editor styles */
 .contentContainer {
   position: relative;
   flex: 1;
@@ -237,7 +206,7 @@
   padding: 0;
   margin: 0;
   background: transparent !important;
-  color: #e2e8f0 !important;
+  color: var(--text-secondary) !important;
   font-size: 16px;
   line-height: 1.5;
   font-family: inherit;
@@ -250,7 +219,7 @@
 .tiptapEditor .ProseMirror p {
   margin: 0 0 8px 0;
   padding: 0;
-  color: #e2e8f0 !important;
+  color: var(--text-secondary) !important;
 }
 
 .tiptapEditor .ProseMirror p:last-child {
@@ -260,26 +229,26 @@
 .tiptapEditor .ProseMirror p.is-editor-empty:first-child::before {
   content: "Start typing or paste your thoughts...";
   float: left;
-  color: #64748b;
+  color: var(--text-disabled);
   font-style: italic;
   pointer-events: none;
   height: 0;
 }
 
-/* Rich text formatting - Notion style */
+/* Rich text formatting */
 .tiptapEditor .ProseMirror strong {
-  color: #f1f5f9;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .tiptapEditor .ProseMirror em {
-  color: #e2e8f0;
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 .tiptapEditor .ProseMirror code {
   background: rgba(255, 255, 255, 0.1);
-  color: #f59e0b;
+  color: var(--color-warning);
   padding: 2px 4px;
   border-radius: 4px;
   font-size: 14px;
@@ -288,12 +257,12 @@
 
 .tiptapEditor .ProseMirror pre {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
   padding: 16px;
   margin: 16px 0;
   overflow-x: auto;
-  color: #e2e8f0;
+  color: var(--text-secondary);
   font-family: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', Consolas, 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.4;
@@ -307,17 +276,17 @@
 }
 
 .tiptapEditor .ProseMirror blockquote {
-  border-left: 3px solid #64748b;
+  border-left: 3px solid var(--text-disabled);
   margin: 16px 0;
   padding-left: 16px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-style: italic;
 }
 
 .tiptapEditor .ProseMirror h1,
 .tiptapEditor .ProseMirror h2,
 .tiptapEditor .ProseMirror h3 {
-  color: #f1f5f9;
+  color: var(--text-primary);
   font-weight: 600;
   margin: 24px 0 12px 0;
   line-height: 1.2;
@@ -343,10 +312,10 @@
 
 .tiptapEditor .ProseMirror li {
   margin: 4px 0;
-  color: #e2e8f0;
+  color: var(--text-secondary);
 }
 
-/* Custom scrollbar for editor */
+/* Scrollbar */
 .tiptapEditor .ProseMirror::-webkit-scrollbar {
   width: 6px;
 }
@@ -370,21 +339,25 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #64748b;
+  color: var(--text-disabled);
   font-style: italic;
   font-size: 16px;
 }
 
-/* Status footer */
+/* Footer */
 .footer {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 12px 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-primary);
   max-width: 800px;
   margin: 0 auto;
   width: 100%;
+}
+
+.footerSpacer {
+  flex: 1;
 }
 
 .statusContainer {
@@ -392,58 +365,34 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 10px;
-  color: #f1f5f9;
+  color: var(--text-primary);
   font-style: italic;
 }
 
 .statusMessage {
   font-size: 14px;
-  font-weight: 5000;
+  font-weight: 500;
   padding: 6px 12px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
 }
 
-/* Focus states and animations */
-.titleInput:focus,
-.contentTextarea:focus {
-  outline: none;
-}
-
-/* Smooth transitions for all interactive elements - standardized timing */
-* {
-  transition: all 0.2s ease;
-}
-
-/* Removed old textarea scrollbar styles - now handled by TipTap editor styles above */
-
-/* Using common fadeInUp animation from global.module.css */
-
-.container {
-  animation: fadeInUp 0.4s ease-out;
-}
-
-/* Status message styles */
 .statusSaving {
   font-size: 14px;
-  color: #f59e0b;
+  color: var(--color-warning);
   font-style: italic;
 }
 
 .statusSaved {
   font-size: 14px;
-  color: #10b981;
+  color: var(--color-success);
   font-style: italic;
 }
 
 .statusError {
   font-size: 14px;
-  color: #ef4444;
+  color: var(--color-error);
   font-style: italic;
-}
-
-.footerSpacer {
-  flex: 1;
 }
 
 .infoContainer {
@@ -451,33 +400,62 @@
   align-items: center;
 }
 
-.infoButton {
-  /* Using common icon button pattern */
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Loading states */
+.loadingContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.infoButton:hover {
-  background: rgba(148, 163, 184, 0.1);
-  border-color: rgba(148, 163, 184, 0.2);
+.loadingContent {
+  text-align: center;
+  padding: 20px;
 }
 
-.infoIcon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) saturate(100%) invert(71%) sepia(14%) saturate(193%) hue-rotate(183deg) brightness(95%) contrast(90%);
-  transition: filter 0.2s ease;
+.loadingText {
+  font-size: 16px;
+  color: var(--text-muted);
 }
 
-.infoButton:hover .infoIcon {
-  filter: brightness(0) saturate(100%) invert(99%) sepia(3%) saturate(82%) hue-rotate(52deg) brightness(118%) contrast(100%);
+.warningContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.warningContent {
+  text-align: center;
+  padding: 20px;
+}
+
+.warningTitle {
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.warningMessage {
+  margin-bottom: 24px;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+.warningButton {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }

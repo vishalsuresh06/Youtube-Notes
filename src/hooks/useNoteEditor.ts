@@ -2,7 +2,8 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useDebounce } from './useDebounce'
 import { useFirestoreCollection } from './useFirestoreCollection'
 import { checkYoutubeUrl, getCurrentTabUrl } from '../utils'
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor } from '@tiptap/react'
+import { Placeholder } from '@tiptap/extensions'
 import StarterKit from '@tiptap/starter-kit'
 import type { Note } from '../types'
 
@@ -40,7 +41,12 @@ export const useNoteEditor = (initialNote?: Note) => {
 
   // Initialize TipTap editor for rich text editing
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Start writing your note...'
+      })
+    ],
     content: initialContentRef.current,
     onCreate: ({ editor }) => {
       editorRef.current = editor

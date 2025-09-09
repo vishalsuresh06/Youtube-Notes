@@ -1,4 +1,6 @@
-/* Modal overlay */
+/* YouTube Warning Modal */
+
+/* Modal Overlay */
 .dialogContainer {
   position: fixed;
   inset: 0;
@@ -6,64 +8,61 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--bg-overlay);
   backdrop-filter: blur(4px);
 }
 
-/* Modal panel */
+/* Modal Panel */
 .dialogPanel {
-  background: #1f2937;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
   padding: 24px;
   max-width: 400px;
   width: 90%;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Modal title */
 .dialogTitle {
   font-size: 20px;
   font-weight: 600;
-  color: #f9fafb;
+  color: var(--text-primary);
   margin: 0 0 12px 0;
   text-align: center;
 }
 
-/* Modal description */
 .dialogDescription {
   font-size: 16px;
-  color: #d1d5db;
+  color: var(--text-secondary);
   margin: 0 0 24px 0;
   text-align: center;
   line-height: 1.5;
 }
 
-/* Button container */
+/* Button */
 .buttonContainer {
   display: flex;
   justify-content: center;
   gap: 12px;
 }
 
-/* OK button */
 .okButton {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 12px 24px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .okButton:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-active) 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 .okButton:active {
@@ -71,6 +70,6 @@
 }
 
 .okButton:focus {
-  outline: 2px solid #ef4444;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
