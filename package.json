@@ -2,7 +2,7 @@
   "name": "youtube-notes",
   "displayName": "Youtube notes",
   "version": "0.0.1",
-  "description": "Todo",
+  "description": "ToDo",
   "author": "Quick Notes",
   "scripts": {
     "dev": "plasmo dev",
@@ -10,6 +10,7 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "plasmo": "0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
