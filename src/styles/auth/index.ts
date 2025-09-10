@@ -1,1 +1,1 @@
-export { default as loginStyles } from './login.module.css'
+export { default as loginStyles } from "./login.module.css"

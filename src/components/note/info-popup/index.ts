@@ -1,1 +1,1 @@
-export { default as InfoPopup } from './InfoPopup'
+export { default as InfoPopup } from "./InfoPopup"

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect } from "react"
 
 interface KeyboardShortcutHandlers {
   onSave?: () => void
@@ -12,27 +12,24 @@ interface KeyboardShortcutHandlers {
 export const useKeyboardShortcuts = (handlers: KeyboardShortcutHandlers) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Check for specific shortcuts only
       if (event.metaKey) {
         const key = event.key.toLowerCase()
-        
-        // Define the shortcuts we want to capture
-        const shortcuts = ['arrowdown', 's', 'b', 'i', 'y', 'arrowleft']
-        
+        const shortcuts = ["arrowdown", "s", "y", "arrowleft"]
+
         if (shortcuts.includes(key)) {
           event.preventDefault() // Prevent default browser action
-          
+
           switch (key) {
-            case 's':
+            case "s":
               handlers.onSave?.()
               break
-            case 'arrowleft':
+            case "arrowleft":
               handlers.onBack?.()
               break
-            case 'arrowdown':
+            case "arrowdown":
               handlers.onTimestamp?.()
               break
-            case 'y':
+            case "y":
               handlers.onYoutube?.()
               break
           }
@@ -40,10 +37,10 @@ export const useKeyboardShortcuts = (handlers: KeyboardShortcutHandlers) => {
       }
     }
 
-    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener("keydown", handleKeyDown)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener("keydown", handleKeyDown)
     }
   }, [handlers])
 }

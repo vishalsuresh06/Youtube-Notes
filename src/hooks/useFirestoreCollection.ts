@@ -40,7 +40,7 @@ export const useFirestoreCollection = <T = any>(collectionPath: string) => {
     async function init(_snapshot = null as QuerySnapshot<DocumentData>) {
       try {
         const snapshot = _snapshot || (await getDocs(collectionRef))
-        const documents = snapshot.docs.map(doc => ({
+        const documents = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
         })) as T[]
@@ -64,7 +64,7 @@ export const useFirestoreCollection = <T = any>(collectionPath: string) => {
   const updateData = useCallback(
     (docId: string, _data: Partial<T>) => {
       if (!firestore || !user) {
-        return Promise.reject(new Error('User must be authenticated'))
+        return Promise.reject(new Error("User must be authenticated"))
       }
 
       const docRef = doc(firestore, collectionPath, docId)
@@ -76,7 +76,7 @@ export const useFirestoreCollection = <T = any>(collectionPath: string) => {
   const createData = useCallback(
     (_data: T) => {
       if (!firestore || !user) {
-        return Promise.reject(new Error('User must be authenticated'))
+        return Promise.reject(new Error("User must be authenticated"))
       }
 
       const dataWithUser = {
@@ -94,7 +94,7 @@ export const useFirestoreCollection = <T = any>(collectionPath: string) => {
   const saveData = useCallback(
     (noteId: string, _data: T) => {
       if (!firestore || !user) {
-        return Promise.reject(new Error('User must be authenticated'))
+        return Promise.reject(new Error("User must be authenticated"))
       }
 
       const dataWithUser = {
@@ -112,7 +112,7 @@ export const useFirestoreCollection = <T = any>(collectionPath: string) => {
   const deleteData = useCallback(
     (docId: string) => {
       if (!firestore || !user) {
-        return Promise.reject(new Error('User must be authenticated'))
+        return Promise.reject(new Error("User must be authenticated"))
       }
 
       const docRef = doc(firestore, collectionPath, docId)

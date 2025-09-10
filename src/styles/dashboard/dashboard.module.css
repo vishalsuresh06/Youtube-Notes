@@ -3,7 +3,15 @@
 .container {
   min-height: 100vh;
   background: var(--bg-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   padding: 20px;
 }
 
@@ -29,7 +37,11 @@
 }
 
 .logoutButton {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-hover) 100%
+  );
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -43,7 +55,11 @@
 }
 
 .logoutButton:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-active) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hover) 0%,
+    var(--color-primary-active) 100%
+  );
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -86,7 +102,11 @@
 }
 
 .addNoteButton {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-hover) 100%
+  );
   color: white;
   border: none;
   border-radius: 10px;
@@ -102,7 +122,11 @@
 }
 
 .addNoteButton:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-active) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hover) 0%,
+    var(--color-primary-active) 100%
+  );
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }
@@ -171,7 +195,7 @@
 .noteCard:hover {
   background: var(--bg-card-hover);
   transform: translateY(-2px);
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.3),
     0 0 20px rgba(239, 68, 68, 0.15),
     0 0 40px rgba(239, 68, 68, 0.1);
@@ -216,7 +240,11 @@
 }
 
 .deleteNoteButton {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-hover) 100%
+  );
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -232,7 +260,11 @@
 }
 
 .deleteNoteButton:hover {
-  background: linear-gradient(135deg, var(--color-primary-hover) 0%, var(--color-primary-active) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hover) 0%,
+    var(--color-primary-active) 100%
+  );
   transform: translateY(-1px);
   box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
 }
@@ -279,7 +311,12 @@
 .divider {
   border: none;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(100, 100, 100, 0.5), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(100, 100, 100, 0.5),
+    transparent
+  );
   margin: 24px 0;
 }
 
@@ -288,15 +325,15 @@
   .container {
     padding: 12px;
   }
-  
+
   .notesSection {
     padding: 20px 16px;
   }
-  
+
   .notesTitle {
     font-size: 18px;
   }
-  
+
   .addNoteButton {
     padding: 10px 16px;
     font-size: 13px;

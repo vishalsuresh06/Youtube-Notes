@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { NoteEditor } from './index'
-import { YTWarningPopup } from './index'
-import { checkYoutubeUrl, getCurrentTabUrl } from '../../utils'
-import { noteStyles as styles } from '../../styles'
+import React, { useEffect, useState } from "react"
+
+import { noteStyles as styles } from "../../styles"
+import { checkYoutubeUrl, getCurrentTabUrl } from "../../utils"
+import { NoteEditor, YTWarningPopup } from "./index"
 
 interface NewNoteProps {
-    onBack: () => void
+  onBack: () => void
 }
 
 const NewNote = ({ onBack }: NewNoteProps) => {
@@ -16,7 +16,7 @@ const NewNote = ({ onBack }: NewNoteProps) => {
     const checkUrl = async () => {
       const currentTabUrl = await getCurrentTabUrl()
       const isYouTube = currentTabUrl ? checkYoutubeUrl(currentTabUrl) : false
-      
+
       if (!isYouTube) {
         setShowWarning(true)
         // Auto-navigate back after showing warning
@@ -24,10 +24,10 @@ const NewNote = ({ onBack }: NewNoteProps) => {
           onBack()
         }, 100)
       }
-      
+
       setIsLoading(false)
     }
-    
+
     checkUrl()
   }, [onBack])
 
@@ -40,9 +40,7 @@ const NewNote = ({ onBack }: NewNoteProps) => {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingContent}>
-          <p className={styles.loadingText}>
-            Checking URL...
-          </p>
+          <p className={styles.loadingText}>Checking URL...</p>
         </div>
       </div>
     )
@@ -51,10 +49,7 @@ const NewNote = ({ onBack }: NewNoteProps) => {
   return (
     <>
       <NoteEditor onBack={onBack} />
-      <YTWarningPopup 
-        isOpen={showWarning} 
-        onClose={handleCloseWarning} 
-      />
+      <YTWarningPopup isOpen={showWarning} onClose={handleCloseWarning} />
     </>
   )
 }

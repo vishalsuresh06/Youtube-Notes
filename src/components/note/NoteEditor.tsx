@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { useNoteEditor, useKeyboardShortcuts } from '../../hooks'
-import { getStatusMessage, openYoutubeLink } from '../../utils'
-import { InfoPopup } from './info-popup'
-import type { Note } from '../../types'
-import { YoutubeIcon, AIIcon, AddIcon, InfoIcon } from '../../assets/icons'
-import { noteStyles as styles } from '../../styles'
-import { EditorContent } from '@tiptap/react'
+import { EditorContent } from "@tiptap/react"
+import React, { useState } from "react"
+
+import { AddIcon, AIIcon, InfoIcon, YoutubeIcon } from "../../assets/icons"
+import { useKeyboardShortcuts, useNoteEditor } from "../../hooks"
+import { noteStyles as styles } from "../../styles"
+import type { Note } from "../../types"
+import { getStatusMessage, openYoutubeLink } from "../../utils"
+import { InfoPopup } from "./info-popup"
 
 interface NoteEditorProps {
   initialNote?: Note
@@ -32,7 +33,7 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
     onSave: performSave,
     onBack,
     onYoutube: () => initialNote?.url && openYoutubeLink(initialNote.url),
-    onTimestamp: () => console.log('Timestamp shortcut'),
+    onTimestamp: () => console.log("Timestamp shortcut")
   })
 
   // Event handlers
@@ -46,7 +47,10 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={onBack} aria-label="Go back"></button>
+        <button
+          className={styles.backButton}
+          onClick={onBack}
+          aria-label="Go back"></button>
         <div className={styles.headerSpacer}></div>
         <button className={styles.actionButton}>
           <img src={AIIcon} alt="YouTube" className={styles.aIIcon} />
@@ -54,32 +58,30 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
         <button className={styles.actionButton}>
           <img src={AddIcon} alt="YouTube" className={styles.addIcon} />
         </button>
-        <button className={styles.actionButton} onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
+        <button
+          className={styles.actionButton}
+          onClick={() => initialNote?.url && openYoutubeLink(initialNote.url)}>
           <img src={YoutubeIcon} alt="YouTube" className={styles.youtubeIcon} />
         </button>
       </div>
 
       <div className={styles.editor}>
         <div className={styles.titleContainer}>
-          <input 
-            type="text" 
+          <input
+            type="text"
             className={styles.titleInput}
-            placeholder="Untitled" 
-            value={title} 
+            placeholder="Untitled"
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
             autoFocus
           />
         </div>
 
-        <div className={styles.contentContainer}>
-          {editor ? (
-            <EditorContent editor={editor} className={styles.tiptapEditor} />
-          ) : (
-            <div className={styles.editorPlaceholder}>Loading editor...</div>
-          )}
-        </div>
-
-
+        {editor ? (
+          <EditorContent editor={editor} className={styles.tiptapEditor} />
+        ) : (
+          <div className={styles.editorPlaceholder}>Loading editor...</div>
+        )}
       </div>
 
       <div className={styles.footer}>
@@ -87,7 +89,9 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
           {statusMessage && (
             <div className={statusMessage.className}>
               {statusMessage.text}
-              {hasUnsavedChanges && saveStatus === 'idle' && ' • Unsaved changes'}
+              {hasUnsavedChanges &&
+                saveStatus === "idle" &&
+                " • Unsaved changes"}
             </div>
           )}
         </div>
@@ -98,7 +102,9 @@ const NoteEditor = ({ initialNote, onBack }: NoteEditorProps) => {
           </button>
         </div>
       </div>
-      {isInfoOpen && <InfoPopup open={isInfoOpen} onClose={() => setIsInfoOpen(false)} />}
+      {isInfoOpen && (
+        <InfoPopup open={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
+      )}
     </div>
   )
 }

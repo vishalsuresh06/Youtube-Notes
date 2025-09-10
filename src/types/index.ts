@@ -1,1 +1,1 @@
-export type { Note } from './Note'
+export type { Note } from "./Note"

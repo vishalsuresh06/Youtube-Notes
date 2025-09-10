@@ -1,8 +1,8 @@
 // Auth components
-export * from './auth'
+export * from "./auth"
 
 // Dashboard components
-export * from './dashboard'
+export * from "./dashboard"
 
 // Note components
-export * from './note'
+export * from "./note"

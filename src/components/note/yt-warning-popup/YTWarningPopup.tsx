@@ -1,6 +1,12 @@
-import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import React from 'react'
-import { ytWarningStyles as styles } from '../../../styles'
+import {
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle
+} from "@headlessui/react"
+import React from "react"
+
+import { ytWarningStyles as styles } from "../../../styles"
 
 interface YTWarningPopupProps {
   isOpen: boolean
@@ -11,7 +17,9 @@ const YTWarningPopup = ({ isOpen, onClose }: YTWarningPopupProps) => {
   return (
     <Dialog open={isOpen} onClose={onClose} className={styles.dialogContainer}>
       <DialogPanel className={styles.dialogPanel}>
-        <DialogTitle className={styles.dialogTitle}>Not a YouTube video</DialogTitle>
+        <DialogTitle className={styles.dialogTitle}>
+          Not a YouTube video
+        </DialogTitle>
         <Description className={styles.dialogDescription}>
           You can only create new notes on YouTube videos
         </Description>

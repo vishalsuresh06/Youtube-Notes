@@ -1,6 +1,7 @@
-import React from 'react'
-import { NoteEditor } from './index'
-import type { Note } from '../../types'
+import React from "react"
+
+import type { Note } from "../../types"
+import { NoteEditor } from "./index"
 
 interface ExistingNoteProps {
   note: Note
