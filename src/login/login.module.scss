@@ -1,0 +1,417 @@
+// Variables
+$primary-color: #ef4444;
+$primary-dark: #dc2626;
+$primary-darker: #b91c1c;
+$background-color: #000;
+$text-primary: #ffffff;
+$text-secondary: #e2e8f0;
+$glass-bg: rgba(255, 255, 255, 0.1);
+$glass-border: rgba(255, 255, 255, 0.2);
+$blur-amount: 20px;
+$border-radius-lg: 20px;
+$border-radius-md: 12px;
+$font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+
+// Color palette for easy maintenance
+$blob-light-red: rgba(254, 202, 202, 0.7);
+$blob-medium-red: rgba(252, 165, 165, 0.4);
+$blob-red: rgba(248, 113, 113, 0.7);
+$blob-dark-red: rgba(239, 68, 68, 0.6);
+$blob-darker-red: rgba(220, 38, 38, 0.7);
+$blob-deepest-red: rgba(185, 28, 28, 0.6);
+
+// Mixins
+@mixin glass-morphism($blur: $blur-amount, $opacity: 0.1, $border-opacity: 0.2) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur) saturate(180%);
+  -webkit-backdrop-filter: blur($blur) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+}
+
+@mixin button-hover-effect($lift: -2px, $shadow-color: $primary-color) {
+  transform: translateY($lift);
+  box-shadow: 0 8px 25px rgba($shadow-color, 0.4);
+}
+
+@mixin shine-effect {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+  }
+
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+@mixin blob-gradient($r1, $g1, $b1, $r2, $g2, $b2, $opacity1: 0.7, $opacity2: 0.4) {
+  background: radial-gradient(
+    circle,
+    rgba($r1, $g1, $b1, $opacity1) 0%,
+    rgba($r2, $g2, $b2, $opacity2) 40%,
+    transparent 70%
+  );
+}
+
+@mixin button-base {
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.01em;
+  font-family: inherit;
+  @include shine-effect;
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes fadeInUpCustom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Blob movement animations
+@keyframes blobMove1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(100px, -80px) scale(1.2); }
+  50% { transform: translate(-50px, 120px) scale(0.8); }
+  75% { transform: translate(80px, 50px) scale(1.1); }
+}
+
+@keyframes blobMove2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-120px, -60px) scale(0.9); }
+  66% { transform: translate(60px, -100px) scale(1.3); }
+}
+
+@keyframes blobMove3 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(-100px, 80px) scale(1.2) rotate(180deg); }
+}
+
+@keyframes blobMove4 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  25% { transform: translate(120px, -60px) scale(0.8) rotate(90deg); }
+  50% { transform: translate(-80px, -120px) scale(1.3) rotate(180deg); }
+  75% { transform: translate(60px, 100px) scale(0.9) rotate(270deg); }
+}
+
+@keyframes blobMove5 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-150px, 100px) scale(1.4); }
+}
+
+@keyframes blobMove6 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33% { transform: translate(80px, -100px) scale(0.7) rotate(120deg); }
+  66% { transform: translate(-120px, 80px) scale(1.2) rotate(240deg); }
+}
+
+@keyframes blobMove7 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(100px, 120px) scale(1.1); }
+  75% { transform: translate(-100px, -80px) scale(0.9); }
+}
+
+@keyframes blobMove8 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(150px, -80px) scale(1.3) rotate(180deg); }
+}
+
+@keyframes blobMove9 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40% { transform: translate(-100px, 150px) scale(0.8); }
+  80% { transform: translate(120px, -100px) scale(1.2); }
+}
+
+/* Modern Login Page with Plasma Background */
+.container {
+  min-height: 100vh;
+  background: $background-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: $font-family;
+  position: relative;
+  overflow: hidden;
+
+  /* Plasma Blob Elements */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 400px;
+    height: 400px;
+    @include blob-gradient(254, 202, 202, 252, 165, 165);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: blobMove1 14s ease-in-out infinite;
+    z-index: 0;
+
+    // Additional blobs using box-shadow
+    box-shadow: 
+      800px 200px 0 0 rgba(252, 165, 165, 0.6),
+      800px 200px 50px 0 rgba(252, 165, 165, 0.2),
+      200px 600px 0 0 $blob-red,
+      200px 600px 50px 0 rgba(248, 113, 113, 0.3),
+      900px 700px 0 0 $blob-dark-red,
+      900px 700px 50px 0 rgba(239, 68, 68, 0.3),
+      100px 300px 0 0 $blob-darker-red,
+      100px 300px 50px 0 rgba(220, 38, 38, 0.3),
+      700px 500px 0 0 $blob-deepest-red,
+      700px 500px 50px 0 rgba(185, 28, 28, 0.3);
+    animation: blobMove1 14s ease-in-out infinite,
+               blobMove3 12s ease-in-out infinite,
+               blobMove4 14s ease-in-out infinite,
+               blobMove5 18s ease-in-out infinite,
+               blobMove6 15s ease-in-out infinite,
+               blobMove7 13s ease-in-out infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 60%;
+    left: 60%;
+    width: 350px;
+    height: 350px;
+    @include blob-gradient(252, 165, 165, 248, 113, 113, 0.8);
+    border-radius: 50%;
+    filter: blur(60px);
+    animation: blobMove2 16s ease-in-out infinite;
+    z-index: 0;
+
+    box-shadow: 
+      600px 100px 0 0 rgba(220, 38, 38, 0.6),
+      600px 100px 50px 0 rgba(220, 38, 38, 0.3),
+      400px 800px 0 0 $blob-deepest-red,
+      400px 800px 50px 0 rgba(185, 28, 28, 0.3);
+    animation: blobMove2 16s ease-in-out infinite,
+               blobMove8 17s ease-in-out infinite,
+               blobMove9 19s ease-in-out infinite;
+  }
+}
+
+/* Login Card and Elements */
+.loginCard {
+  @include glass-morphism($blur-amount, 0.1, 0.2);
+  border-radius: $border-radius-lg;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  padding: 48px 40px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  animation: fadeInUpCustom 0.6s ease-out;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+.subtitle {
+  font-size: 17px;
+  color: $text-secondary;
+  margin: 0 0 32px 0;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.loginButton {
+  @include button-base;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+  color: $text-primary;
+  margin-top: 24px;
+  box-shadow: 0 4px 15px rgba($primary-color, 0.4);
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-dark 0%, $primary-darker 100%);
+    @include button-hover-effect;
+  }
+
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+.horizontalRule {
+  border: none;
+  border-top: 1px solid $glass-border;
+  margin: 32px 0;
+}
+
+.loginButtonOther {
+  @include button-base;
+  @include glass-morphism(20px, 0.1, 0.2);
+  color: $text-primary;
+
+  &:hover {
+    @include button-hover-effect(-2px, #919191);
+  }
+}
+
+// Loading components
+.loadingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: block;
+}
+
+.loadingText {
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+}
+
+// Account switching styles
+.accountOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+
+  .loginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 0;
+  }
+}
+
+.profileImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.switchAccountButton {
+  background: transparent;
+  color: $text-secondary;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: $border-radius-md;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  font-family: inherit;
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+
+    &:hover {
+      transform: none;
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .loginCard {
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+}
